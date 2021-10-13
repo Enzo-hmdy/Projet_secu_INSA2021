@@ -35,26 +35,17 @@ def stegano(input_file, output_file, msg):
         print("bin :", bin_msg[i])
 
         if(bin_msg[i] and not img_data[i] % 2):
-            print("eee")
             img_data[i] = img_data[i] - 1
-
         else:
-
             print(bin_msg[i] == bin(0), "et", img_data[i] % 2)
-            print(bin(0))
-
-        if((bin_msg[i] == bin(0)) and (img_data[i] % 2)):
-            print("poouet")
+        if((bin_msg[i] == '0') and (img_data[i] % 2)):
             img_data[i] = img_data[i] + 1
 
         print("Après : ", img_data[i])
-
-    """img_data[:bin_msg_lenght] = img_data[:bin_msg_lenght] & ~1 | convert_msg_to_binary(
-        msg)
     img_data = np.reshape(img_data, (height, width, 3))
 
     new_img = Image.fromarray(img_data)
-    new_img.save(output_file)"""
+    new_img.save(output_file)
 
 
 def main(argv):
