@@ -10,12 +10,18 @@ from os import putenv
 from PIL import Image
 import numpy as np
 import sys
-import getopt
+import hashlib
 
 
 def convert_msg_to_binary(msg):
 
     return ''.join(["{:08b}".format(ord(x)) for x in msg])
+
+
+def hashage(msg):
+    hash = hashlib.sha1(msg.encode())
+    hex_hash = hash.hexdigest()
+    return hex_hash
 
 
 def stegano(input_file, output_file, msg):
@@ -26,31 +32,30 @@ def stegano(input_file, output_file, msg):
     bin_msg_lenght = len(convert_msg_to_binary(msg))
     width, height = img.size
     img_data = np.array(img)
-    img_data = np.reshape(img_data, width*height*3)
+    img_data = np.reshape(img_data, width*height*4)
     print(img_data)
     # data[:b_message_lenght] = data[:b_message_lenght] & ~1 | b_message
 
     for i in range(len(bin_msg)):
-        print("Avant : ", img_data[i])
-        print("bin :", bin_msg[i])
 
         if(bin_msg[i] and not img_data[i] % 2):
             img_data[i] = img_data[i] - 1
-        else:
-            print(bin_msg[i] == bin(0), "et", img_data[i] % 2)
         if((bin_msg[i] == '0') and (img_data[i] % 2)):
-            img_data[i] = img_data[i] + 1
+            img_data[i] = img_data[i] - 1
 
-        print("Après : ", img_data[i])
-    img_data = np.reshape(img_data, (height, width, 3))
+    img_data = np.reshape(img_data, (height, width, 4))
 
     new_img = Image.fromarray(img_data)
     new_img.save(output_file)
 
 
 def main(argv):
+    message = ""
     msh_lenght = len(argv) - 3
-    stegano(argv[1], argv[2], "mellier ce gros bg de la street")
+    for i in range(3, len(argv)):
+        message = message + argv[i] + " "
+    stegano(argv[1], argv[2], hashage(message))
 
 
-main(sys.argv)
+if __name__ == "__main__":
+    main(sys.argv)
