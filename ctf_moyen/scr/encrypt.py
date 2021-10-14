@@ -21,6 +21,7 @@ def convert_msg_to_binary(msg):
 def hashage(msg):
     hash = hashlib.sha1(msg.encode())
     hex_hash = hash.hexdigest()
+    print(hex_hash)
     return hex_hash
 
 
@@ -53,7 +54,8 @@ def main(argv):
     message = ""
     msh_lenght = len(argv) - 3
     for i in range(3, len(argv)):
-        message = message + argv[i] + " "
+        message = message + argv[i]
+    print("message : ", message)
     stegano(argv[1], argv[2], hashage(message))
 
 
