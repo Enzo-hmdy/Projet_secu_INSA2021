@@ -14,6 +14,14 @@ import hashlib
 
 
 def convert_msg_to_binary(msg):
+    """ convert a string in
+
+    Args:
+        msg ([type]): [description]
+
+    Returns:
+        [type]: [description]
+    """
 
     return ''.join(["{:08b}".format(ord(x)) for x in msg])
 
