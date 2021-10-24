@@ -43,3 +43,7 @@ sudo ufw allow from 0.0.0.0 to any port 3306
    89  sudo netfilter-persistent reload
    90  service iptables save
    91  history
+      sudo mysql -u root -p
+
+      GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'password';
+      GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root';
