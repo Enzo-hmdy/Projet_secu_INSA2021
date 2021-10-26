@@ -6,44 +6,21 @@ export PATH=$PATH:/usr/sbin
 export PATH=$PATH:/sbin
 dpkg -i mysql-apt-config_0.8.15-1_all.deb 
 apt-get update
-mysql -u root -p 
 
-sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+
 sudo systemctl restart mysql
 sudo ufw allow from 0.0.0.0 to any port 3306
+iptables -A INPUT -p tcp --dport 3306 -j ACCEPT
+service iptables save
+sudo mysql -u root -p
+
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'password';
+  GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root';
 
 
+TODOLIST DE CE QUI RESTE A FAIRE 
+Instalation mysql
+géré l'import des images encrypté // apr's
+PUisse consulter une rainbow pour fix notre mdp root 
 
 
- 64  systemctl status firewall-cmd
-   65  ufw status
-   66  ufw status
-   67  ufw
-   68  ufw status
-   69  sudo apt-get install ufw
-   70  apt-get upgrade
-   71  status ufw
-   72  ufw status
-   73  apt-get update && apt-get install ufw -y
-   74  systemctl start ufw
-   75  ufw status
-   76  apt-get update
-   77  apt-get install ufw
-   78  iptables -A INPUT -p tcp --dport 3306 -j ACCEPT
-   79  reboot
-   80  ls
-   81  sudo iptables -A INPUT -p tcp --dport 3306 -j ACCEPT
-   82  netfilter-persistent save
-   83  sudo netfilter-persistent save
-   84  apt-get install netfilter
-   85  apt-get update
-   86  apt-get install netfilter
-   87  apt-get install netfilter-persistent
-   88  sudo netfilter-persistent save
-   89  sudo netfilter-persistent reload
-   90  service iptables save
-   91  history
-      sudo mysql -u root -p
-
-      GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'password';
-      GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root';
