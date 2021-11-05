@@ -14,20 +14,19 @@ if(isset($_POST['username']) && isset($_POST['password']))
     {
         $username = $_POST['username'];
         $password = $_POST['password'];
-        $requete = "SELECT id, passwd FROM users WHERE 
+        $requete = "SELECT id,passwd FROM users WHERE 
               id='$username' AND passwd='$password';";
-        echo "requete".$requete;
         $exec_requete = pg_query($db,$requete);
-        $reponse      = pg_fetch_row($exec_requete);
-        echo "reponse : ".$reponse[0]." et ".$reponse[1];
-        if($count!=0) // nom d'utilisateur et mot de passe corrects
+        $reponse      = pg_num_rows($exec_requete);
+        if($reponse == 1) // nom d'utilisateur et mot de passe corrects
         {
-           $_SESSION['username'] = $_POST['username'];
-           echo('Location: home.php');
+           $_SESSION['username'] = $username;
+           $_SESSION['password'] = $password;
+           header('Location: home.php');
         }
         else
         {
-           echo('Location: index.php?erreur=1'); // utilisateur ou mot de passe incorrect
+           header('Location: index.php?erreur=1'); // utilisateur ou mot de passe incorrect
         }
     }
     else
