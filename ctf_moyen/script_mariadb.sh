@@ -41,3 +41,12 @@ port     = 3306
 maxretry = 3
 bantime = 600
 logpath  = /var/log/mariadb/mariadb.log' >> /etc/fail2ban/jail.d/mariadb.conf
+
+
+iptables -I INPUT -p tcp --dport 3306 -i ens33 -m state --state NEW -m recent --set
+iptables -I INPUT -p tcp --dport 3306 -i eth0 -m state --state NEW -m recent  --update --seconds 300 --hitcount 4 -j DROP
+
+
+# PARTI SNMP VU QUE FAILTOBAN ON EST TROP MAUVAIS 
+apt-get install snmpd snmp
+apt-get install snmptrapd
