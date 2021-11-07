@@ -1,13 +1,14 @@
 sudo apt-get update
-apt-get install expect
+apt-get -y install expect
 sudo apt -y install mariadb-server mariadb-client
 MYSQL_ROOT_PASSWORD=azerty
+MYMSG=$(cat /proc/sys/kernel/random/uuid | sed 's/[-]//g' | head -c 6; echo;)
 MYSQL_INSTAL=$(expect -c "
 
 set timeout 5
 spawn mysql_secure_installation
 expect \"Enter current password for root:\"
-send \"$MYSQL_ROOT_PASSWORD\r\"
+send \"$MYMSG\r\"
 expect \"Would you like to setup VALIDATE PASSWORD plugin?\"
 send \"n\r\" 
 expect \"Change the password for root ?\"
@@ -24,6 +25,7 @@ expect eof
 ")
 
 echo "$MYSQL_INSTAL"
+apt-get -y install ufw
 ufw allow from 0.0.0.0 to any port 3306
 iptables -A INPUT -p tcp --dport 3306 -j ACCEPT
 service iptables save
@@ -31,13 +33,18 @@ mysql -u root -p$MYSQL_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'
 sed -i -e 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf 
 systemctl restart mysql
 systemctl restart mariadb
-MYMSG=$(cat /proc/sys/kernel/random/uuid | sed 's/[-]//g' | head -c 6; echo;)
+apt-get -y install git
+apt-get -y install pip
+python3 -m pip install Pillow
+python3 -m pip install numpy
+
+
 git clone https://github.com/projetsecu/projetsecurite.git
 cd projetsecurite
 python3 encrypt.py a.png picture.png $MYMSG
 cd ..
-cp /projetsecurite/picture.png .
-rm -r /projetsecurite
+cp projetsecurite/picture.png .
+rm -r projetsecurite/
 
 iptables -I INPUT -p tcp --dport 3306 -i ens33 -m state --state NEW -m recent --set
 iptables -I INPUT -p tcp --dport 3306 -i ens33 -m state --state NEW -m recent  --update --seconds 300 --hitcount 4 -j DROP
