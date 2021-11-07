@@ -32,21 +32,14 @@ sed -i -e 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf
 systemctl restart mysql
 systemctl restart mariadb
 MYMSG=$(cat /proc/sys/kernel/random/uuid | sed 's/[-]//g' | head -c 6; echo;)
-sudo apt install fail2ban -y
-touch /etc/fail2ban/jail.d/mariadb.conf
-echo '[mysqld-auth]
-enabled = true
-filter   = mysqld-auth
-port     = 3306
-maxretry = 3
-bantime = 600
-logpath  = /var/log/mariadb/mariadb.log' >> /etc/fail2ban/jail.d/mariadb.conf
-
+git clone https://github.com/projetsecu/projetsecurite.git
+cd projetsecurite
+python3 encrypt.py a.png picture.png $MYMSG
+cd ..
+cp /projetsecurite/picture.png .
+rm -r /projetsecurite
 
 iptables -I INPUT -p tcp --dport 3306 -i ens33 -m state --state NEW -m recent --set
-iptables -I INPUT -p tcp --dport 3306 -i eth0 -m state --state NEW -m recent  --update --seconds 300 --hitcount 4 -j DROP
+iptables -I INPUT -p tcp --dport 3306 -i ens33 -m state --state NEW -m recent  --update --seconds 300 --hitcount 4 -j DROP
 
 
-# PARTI SNMP VU QUE FAILTOBAN ON EST TROP MAUVAIS 
-apt-get install snmpd snmp
-apt-get install snmptrapd

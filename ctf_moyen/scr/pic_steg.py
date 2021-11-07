@@ -38,20 +38,28 @@ def stegano(input_pic1, input_pic2, output_file):
     img_data1 = np.reshape(img_data1, width_pic1*height_pic1*4)
 
     img_data2 = np.array(img2)
+    print(img_data2)
     img_data2 = np.reshape(img_data2, width_pic2*height_pic2*4)
 
     bin_string_img_data2 = ""
     for i in range(len(img_data2)):
-        bin_string_img_data2 = bin_string_img_data2 + ""
+        bin_string_img_data2 = bin_string_img_data2 + (bin(i)[2:])
 
     assert(len(img_data1)*4 > len(img_data2))
 
-    for i in range(len(img_data2)):
+    for i in range(width_pic2):
+        for j in range(height_pic2):
 
-        if(img_data2[i] and not img_data1[i] % 2):
+            pass
+    """
+
+    for i in range(len(bin_string_img_data2[i])):
+
+        if(bin_string_img_data2[i] and not img_data1[i] % 2):
             img_data1[i] = img_data1[i] - 1
-        if((img_data2[i] == '0') and (img_data1[i] % 2)):
+        if((bin_string_img_data2[i] == '0') and (img_data1[i] % 2)):
             img_data1[i] = img_data1[i] - 1
+    """
 
     img_data1 = np.reshape(img_data1, (height_pic1, width_pic1, 4))
 
@@ -64,7 +72,6 @@ def main(argv):
     msh_lenght = len(argv) - 3
     for i in range(3, len(argv)):
         message = message + argv[i]
-    print("message : ", message)
     stegano(argv[1], argv[2], argv[3])
 
 

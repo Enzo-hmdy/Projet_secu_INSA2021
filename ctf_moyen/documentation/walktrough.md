@@ -11,4 +11,10 @@ Ce CTF s'axe sur 3 catégories :
 
 ## Etape 1
 
-L'utilisateur lorsque qu'il est sur la machine n'aura en premier lieu accès à un /home où il n'y aura de présent que plusieurs images, dont une contiendra 
+L'utilisateur lorsque qu'il est sur la machine n'aura en premier lieu accès à un /home où il n'y aura de présent que plusieurs images, dont une contiendra un hash.
+
+Via un autre machine l'utilisateur devra faire un 
+```bash
+nmap -sV -sC ipmachine
+```
+Il pourra s'apercevoir qu'un service mysql est ouvert celui sera protéger par un mot de passe et face aux tentatives de bruteforce.
