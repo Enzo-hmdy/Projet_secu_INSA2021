@@ -33,7 +33,11 @@
         $db = pg_connect($connexionString)
             or die('Connexion impossible : ' . pg_last_error());
 
-        $query = "SELECT * FROM users;";
+        if($_SESSION['username'] == "admin")
+        {
+            $query = "SELECT * FROM users;";
+        }
+        else $query = "SELECT * FROM users WHERE id='".$_SESSION['username']."';";
 
         $res = pg_query($db, $query) or die('Échec de la requête : ' . pg_last_error());
 
