@@ -18,6 +18,8 @@ if(isset($_POST['username']) && isset($_POST['password']))
               id='$username' AND passwd='$password';";
         $exec_requete = pg_query($db,$requete);
         $reponse      = pg_num_rows($exec_requete);
+        echo $reponse."<br />";
+        echo "ici<br/>";
         if($reponse == 1) // nom d'utilisateur et mot de passe corrects
         {
            $_SESSION['username'] = $username;
@@ -31,7 +33,7 @@ if(isset($_POST['username']) && isset($_POST['password']))
     }
     else
     {
-       header('Location: index.php?erreur=2'); // utilisateur ou mot de passe vide
+       echo('Location: index.php?erreur=2'); // utilisateur ou mot de passe vide
     }
 }
 

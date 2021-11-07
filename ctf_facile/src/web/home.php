@@ -85,7 +85,7 @@
             }
 
             #ligne_titres_users {
-                background-color: rgba(82, 255, 0, 0.3);
+                background-color: rgba(82, 255, 0, 0.5);
             }
 
             .colonne_users {
@@ -93,11 +93,11 @@
             }
 
             .ligne_users {
-                background-color: rgba(82, 255, 0, 0.1);
+                background-color: rgba(82, 255, 0, 0.3);
             }
 
             .ligne_users:hover {
-                background-color: rgba(82, 255, 0, 0.3);
+                background-color: rgba(82, 255, 0, 0.5);
             }
 
         </style>
