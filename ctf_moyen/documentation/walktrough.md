@@ -15,7 +15,7 @@ L'utilisateur lorsque qu'il est sur la machine n'aura en premier lieu accès à 
 
 Via un autre machine l'utilisateur devra faire un 
 ```bash
-nmap -sV -sC ipmachine
+nmap -sV -sC [ipmachine]
 ```
 Il pourra s'apercevoir qu'un service mysql est ouvert celui sera protéger par un mot de passe et face aux tentatives de bruteforce.
 
@@ -83,7 +83,7 @@ mysql -h [ip.host] -u root -p[PASSWORD]
 Une fois connecté au port SQL avec les droits root, l'utilisateur sera en possibilité d'éxecuter un reverse shell sur la machine host à l'aide de la librairie metasploit.
 
 ```bash
-[payload metasploit]
+[command creating metasploit payload ]
 ```
 
 Il devra ensuite naviguer dans les fichiers et récupérer le flag.
