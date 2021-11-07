@@ -6,6 +6,11 @@ body{
     margin:0 auto;
     margin-top:10%;
 }
+#content{
+    text-align:center;
+    margin:0 auto;
+    margin-top:10%;
+}
 /* Bordered form */
 form {
     width:100%;
@@ -19,7 +24,11 @@ form {
     margin: 0 auto;
     padding-bottom: 10px;
 }
-
+#content h1{
+    width: 38%;
+    margin: 0 auto;
+    padding-bottom: 10px;
+}
 /* Full-width inputs */
 input[type=text], input[type=password] {
     width: 100%;
@@ -32,7 +41,7 @@ input[type=text], input[type=password] {
 
 /* Set a style for all buttons */
 input[type=submit] {
-    background-color: #53af57;
+    background-color: #67BE4B;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
@@ -42,6 +51,6 @@ input[type=submit] {
 }
 input[type=submit]:hover {
     background-color: white;
-    color: #53af57;
-    border: 1px solid #53af57;
+    color: #67BE4B;
+    border: 1px solid #67BE4B;
 }

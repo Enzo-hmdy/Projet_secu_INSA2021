@@ -18,11 +18,14 @@
             if($_SESSION['username'] !== ""){
                 $user = $_SESSION['username'];
                 // afficher un message
-                echo "Bonjour $user, vous êtes connecté";
+                echo "<h1>Bonjour $user, vous êtes connecté</h1>";
             }
         ?>
 
-        <button class="recherche" type="button" onclick="lancer_recherche_users()">Afficher la base des utilisateurs</button>
+        <br />
+        <br />
+        <br />
+        <br />
 
         <?php
 
@@ -34,16 +37,12 @@
 
         $res = pg_query($db, $query) or die('Échec de la requête : ' . pg_last_error());
 
-        echo "fjeif";
-
         while ($row = pg_fetch_row($res)) {
             $tab[] = $row;
         }
 
-        echo "ouesh";
-
         echo "<table id='recherche_users'>";
-        echo "<caption id='caption_users'>Liste des utilisateurs du site</caption>";
+        echo "<caption id='caption_users'><h2>Liste des utilisateurs du site</h2></caption>";
         echo "<tr id='ligne_titres_users'>";
         echo "<th class='colonne_users'>User</th>";
         echo "<th class='colonne_users'>Password</th>";
@@ -56,17 +55,54 @@
             for($j=0; $j<2; $j++){
                 echo "<td class='colonne_users'>".$tab[$i][$j]."</td>";
             }
-            echo "'</tr>";
+            echo "</tr>";
         }
         echo "</table>";
 
 
         ?>
+
+        <style>
+
+            #recherche_users {
+                width: 80%;
+                border-collapse: collapse;
+                margin: 0 auto;
+                margin-bottom: 3%;
+                margin-top: 3%;
+                position: relative;
+                text-align: center;
+                font-size: 250%;
+            }
+
+            #caption_users {
+                font-family: 'Exo', sans-serif;
+                position: relative;
+                margin-bottom: 1%;
+                text-align: center;
+                color: rgb(60, 60, 60);
+                font-size: 100%;
+            }
+
+            #ligne_titres_users {
+                background-color: rgba(82, 255, 0, 0.3);
+            }
+
+            .colonne_users {
+                border: 1px solid black;
+            }
+
+            .ligne_users {
+                background-color: rgba(82, 255, 0, 0.1);
+            }
+
+            .ligne_users:hover {
+                background-color: rgba(82, 255, 0, 0.3);
+            }
+
+        </style>
             
     </div>
-
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
-    <script src="script.js"></script>
 
 </body>
 

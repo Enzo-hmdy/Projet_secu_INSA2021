@@ -13,7 +13,7 @@ if(isset($_POST['username']) && isset($_POST['password']))
     if($_POST['username'] !== "" && $_POST['password'] !== "")
     {
         $username = $_POST['username'];
-        $password = $_POST['password'];
+        $password = hash("md5",$_POST['password'], false);
         $requete = "SELECT id,passwd FROM users WHERE 
               id='$username' AND passwd='$password';";
         $exec_requete = pg_query($db,$requete);
@@ -21,7 +21,7 @@ if(isset($_POST['username']) && isset($_POST['password']))
         if($reponse == 1) // nom d'utilisateur et mot de passe corrects
         {
            $_SESSION['username'] = $username;
-           $_SESSION['password'] = $password;
+           $_SESSION['password'] = $_POST['password'];
            header('Location: home.php');
         }
         else
