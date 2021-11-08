@@ -15,6 +15,11 @@
         <!-- tester si l'utilisateur est connecté -->
         <?php
             session_start();
+            if (!$_SESSION['login']) 
+            {
+                header("Location: index.php");
+                die();
+            }
             if($_SESSION['username'] !== ""){
                 $user = $_SESSION['username'];
                 // afficher un message
@@ -62,7 +67,8 @@
             echo "</tr>";
         }
         echo "</table>";
-
+        
+        session_destroy();
 
         ?>
 

@@ -12,6 +12,7 @@ if(isset($_POST['username']) && isset($_POST['password']))
 
     if($_POST['username'] !== "" && $_POST['password'] !== "")
     {
+        $_SESSION['login'] = false;
         $username = $_POST['username'];
         $password = hash("md5",$_POST['password'], false);
         $requete = "SELECT id,passwd FROM users WHERE 
@@ -24,6 +25,7 @@ if(isset($_POST['username']) && isset($_POST['password']))
         {
            $_SESSION['username'] = $username;
            $_SESSION['password'] = $_POST['password'];
+           $_SESSION['login'] = true;
            header('Location: home.php');
         }
         else
