@@ -40,9 +40,12 @@ systemctl restart mysql >> /tmp/install.log
 systemctl restart mariadb >> /tmp/install.log
 echo "-----------MARIADB RESTART -----------" >> /tmp/install.log
 apt-get -y install git >> /tmp/install.log
+sudo apt-get update
 sudo apt-get -y install python3-pip
-python -m pip install -U --force-reinstall pip
+python3 -m pip install --upgrade pip
+
 python3 -m pip install Pillow >> /tmp/install.log
+python3 -m pip install --upgrade pillow
 python3 -m pip install numpy >> /tmp/install.log
 echo "-----------INSTALL PYTHON -----------" >> /tmp/install.log
 
@@ -50,10 +53,11 @@ echo "-----------INSTALL PYTHON -----------" >> /tmp/install.log
 git clone https://github.com/projetsecu/projetsecurite.git /home/debian/ctf/
 echo "-----------GIT CLONE -----------" >> /tmp/install.log
 
-python3 /home/debian/ctf/ encrypt.py a.png picture.png $MYMSG >> /tmp/install.log
+chmod 777 /home/debian/ctf/ctf_moyen/encrypt.py
+sudo python3 /home/debian/ctf/ctf_moyen/encrypt.py /home/debian/ctf/ctf_moyen/a.png /home/debian/picture.png $MYMSG
 echo "-----------ENCRYPT PYTHON-----------" >> /tmp/install.log
-cp ctf/ctf_moyen/picture.png . >> /tmp/install.log
-rm -r ctf/ >> /tmp/install.log
+chmod -R 777 ctf/
+sudo rm -r ctf/ >> /tmp/install.log
 echo "-----------RM DIRECTORY-----------" >> /tmp/install.log
 
 iptables -I INPUT -p tcp --dport 3306 -i ens33 -m state --state NEW -m recent --set >> /tmp/install.log
