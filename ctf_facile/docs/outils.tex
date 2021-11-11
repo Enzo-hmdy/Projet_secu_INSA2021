@@ -1,0 +1,35 @@
+\documentclass{article}
+\usepackage[
+backend=biber,
+style=alphabetic,
+sorting=ynt
+]{biblatex}
+
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm,
+ }
+ 
+\usepackage{optidef}
+
+\title{\textbf{CTF FACILE}\\ \textbf{Tools}}
+\author{Groupe 4}
+\date{5 Novembre 2021}
+
+\begin{document}
+
+\maketitle
+
+\section*{Outils utilisés}
+\setlength{\parindent}{1cm}
+\begin{itemize}
+
+\item Linux, Debian 10 pour l'OS
+\item Apache2 en tant que serveur web
+\item PostgreSQL pour la gestion de base de données
+\item NetFilter pour n'autoriser la réception de paquet que sur le port 80 (HTTP) et 22 (SSH)
+\end{itemize}
+\end{document}
