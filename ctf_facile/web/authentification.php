@@ -9,7 +9,7 @@ if(isset($_POST['username']) && isset($_POST['password']))
 {
     // connexion à la base de données
 
-    $connexionString = "host=localhost dbname=ctf_facile user=admin password=azerty";
+    $connexionString = "host=localhost dbname=ctf_facile user=admin password=kostadinkostadinovic";
     $db = pg_connect($connexionString)
            or die('Connexion impossible : ' . pg_last_error());
 

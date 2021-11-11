@@ -19,7 +19,7 @@ MYMSG=$(cat /proc/sys/kernel/random/uuid | sed 's/[-]//g' | head -c 6; echo;)
 
 sudo -u postgres psql  -c "ALTER USER postgres WITH password '$MYMSG'" 
 sudo -u postgres createuser -d admin
-sudo -u postgres psql  -c "ALTER USER admin WITH password 'azerty'" 
+sudo -u postgres psql  -c "ALTER USER admin WITH password 'kostadinkostadinovic'" 
 sudo -u postgres createdb ctf_facile -O admin
 sudo -u postgres psql -d ctf_facile -c "CREATE TABLE users (id varchar(25) PRIMARY KEY, passwd varchar(50));"
 sudo -u postgres psql -U postgres -d ctf_facile -c "COPY users FROM '/home/debian/projetsecurite/ctf_facile/bdd_users.csv' WITH (FORMAT CSV, HEADER, DELIMITER ',', QUOTE '''');" 
@@ -46,5 +46,9 @@ iptables -t filter -A OUTPUT -p tcp --sport 22 -j ACCEPT
 
 iptables -t filter -A INPUT -p tcp --dport 80 -j ACCEPT
 iptables -t filter -A OUTPUT -p tcp --sport 80 -j ACCEPT
+
+chmod 700 -R /var/log/
+chmod 771 -R /var/www/html/
+chmod 777 /var/www/html/style.css
 
 rm -r /home/debian/projetsecurite/
