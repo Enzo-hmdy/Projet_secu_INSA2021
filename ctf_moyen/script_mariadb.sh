@@ -33,7 +33,7 @@ ufw allow from 0.0.0.0 to any port 3306 >> /tmp/install.log
 iptables -A INPUT -p tcp --dport 3306 -j ACCEPT >> /tmp/install.log
 echo "-----------OPEN PORT SQL -----------" >> /tmp/install.log
 service iptables save >> /tmp/install.log
-mysql -u root -p$MYSQL_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root';" >> /tmp/install.log
+mysql -u root -p$MYMSG -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYMSG';" >> /tmp/install.log
 sed -i -e 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf  >> /tmp/install.log
 echo "-----------MODIF MARIADB CNF-----------" >> /tmp/install.log
 systemctl restart mysql >> /tmp/install.log
