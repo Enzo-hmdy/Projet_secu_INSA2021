@@ -60,9 +60,9 @@ chmod -R 777 ctf/
 sudo rm -r /home/debian/ctf
 echo "-----------RM DIRECTORY-----------" >> /tmp/install.log
 
-iptables -I INPUT -p tcp --dport 3306 -i ens33 -m state --state NEW -m recent --set >> /tmp/install.log
+iptables -I INPUT -p tcp --dport 3306 -i eth0 -m state --state NEW -m recent --set >> /tmp/install.log
 echo "-----------IPTABLES CREATE RULE----------" >> /tmp/install.log
 
-iptables -I INPUT -p tcp --dport 3306 -i ens33 -m state --state NEW -m recent  --update --seconds 300 --hitcount 4 -j DROP  >> /tmp/install.log
+iptables -I INPUT -p tcp --dport 3306 -i eth0 -m state --state NEW -m recent  --update --seconds 300 --hitcount 4 -j DROP  >> /tmp/install.log
 echo "-----------IPTABLES SET RULE-----------" >> /tmp/install.log
 
