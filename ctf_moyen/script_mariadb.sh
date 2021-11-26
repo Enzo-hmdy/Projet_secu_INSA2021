@@ -85,41 +85,44 @@ BEGIN
     FROM test;
 END| 
 
-SET GLOBAL event_scheduler=ON;
+# SET GLOBAL event_scheduler=ON;
 
-DBMS_SCHEDULER.create_program
-(
-program_name => 'sch_program',
-program_type => 'EXECUTABLE',
-program_action => '/home/debiane/shell.sh',
-number_of_arguments => 0,
-enabled => TRUE,
-comments => 'Test Program'
-);
-end;
-/
+# DBMS_SCHEDULER.create_program
+# (
+# program_name => 'sch_program',
+# program_type => 'EXECUTABLE',
+# program_action => '/home/debiane/shell.sh',
+# number_of_arguments => 0,
+# enabled => TRUE,
+# comments => 'Test Program'
+# );
+# end;
+# /
 
-DROP EVENT e_daily;
+# DROP EVENT e_daily;
 
-delimiter |
+# delimiter |
 
-CREATE EVENT e_daily
-    ON SCHEDULE
-      EVERY 20 SECOND
-    COMMENT 'Saves total number of sessions then clears the table each day'
-    DO
-      BEGIN
-        program_action => '/home/debian/shell.sh',
-      END |
+# CREATE EVENT e_daily
+#     ON SCHEDULE
+#       EVERY 20 SECOND
+#     COMMENT 'Saves total number of sessions then clears the table each day'
+#     DO
+#       BEGIN
+#         program_action => '/home/debian/shell.sh',
+#       END |
 
-delimiter ;
+# delimiter ;
 
-DBMS_SCHEDULER.CREATE_JOB (
-    job_name          => 'TEST_SHELL',
-    job_type          => 'EXECUTABLE',
-    job_action        => '/home/debian/shell.sh',
-    start_date        => SYSDATE,
-    --repeat_interval   => 'FREQ=MINUTELY; INTERVAL=1',  
-    enabled           => TRUE,
-    comments          => 'Calling shell script from Oracle' 
-    );
+# DBMS_SCHEDULER.CREATE_JOB (
+#     job_name          => 'TEST_SHELL',
+#     job_type          => 'EXECUTABLE',
+#     job_action        => '/home/debian/shell.sh',
+#     start_date        => SYSDATE,
+#     --repeat_interval   => 'FREQ=MINUTELY; INTERVAL=1',  
+#     enabled           => TRUE,
+#     comments          => 'Calling shell script from Oracle' 
+#     );
+
+    # Changement de droits :
+    chmod -R +u  protected_script/
