@@ -31,11 +31,12 @@ spawn adduser user
 expect \"New password: \" { send \"azerty\r\" }
 expect \"Retype new password: \" {send \"azerty\r\"}
 expect \"Full name []: \" {send "\r"}
-expect \"Room Number\" { send "\r" }
-expect \"Work Phone\" { send "\r" }
-expect \"Home Phone\" { send "\r" }
-expect \"Other\" { send "\r" }
-expect \"Is the information correct?\" {send "Y\r"}
+expect \"Room Number []\" { send "\r" }
+expect \"Work Phone []\" { send "\r" }
+expect \"Home Phone []\" { send "\r" }
+expect \"Other []\" { send "\r" }
+expect \"Is the information correct? []\" {send "Y\r"}
+expect eof
 ")
 echo "$MYSQL_INSTAL" >> /tmp/install.log
 echo "$ADD_USER" >> /tmp/install.log
