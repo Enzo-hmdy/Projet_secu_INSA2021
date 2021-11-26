@@ -66,3 +66,12 @@ echo "-----------IPTABLES CREATE RULE----------" >> /tmp/install.log
 iptables -I INPUT -p tcp --dport 3306 -i eth0 -m state --state NEW -m recent  --update --seconds 300 --hitcount 4 -j DROP  >> /tmp/install.log
 echo "-----------IPTABLES SET RULE-----------" >> /tmp/install.log
 
+sudo apt-get install whois
+USER_PSWD=$(perl -e 'print crypt("azerty","salt"),"\n"')
+adduser -m -p $USER_PSWD user
+
+# A mettre dans le crontab toute les minutes :  echo "il est actuellement" && date +%R 
+
+#TODO
+#DELETE ALL LOGS
+#PREVENT USER >FROM USING SUDO
