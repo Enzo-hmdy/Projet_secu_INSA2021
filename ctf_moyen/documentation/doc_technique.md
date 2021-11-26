@@ -139,5 +139,9 @@ expect eof
 
 ```
 
+| Nom script  | Paths                                                        | text ?                                                             |
+|-------------|--------------------------------------------------------------|--------------------------------------------------------------------|
+| show_passwd | /usr/shr/(un truc dans les script partagé avec le bon chmod  | A voir si contenue où juste  utilisation lien symbolique dans cron |
+
 
 
