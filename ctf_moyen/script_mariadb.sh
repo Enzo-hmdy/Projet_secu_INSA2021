@@ -36,12 +36,11 @@ expect \"Work Phone\" { send "\r" }
 expect \"Home Phone\" { send "\r" }
 expect \"Other\" { send "\r" }
 expect \"Is the information correct?\" {send "Y\r"}
-
-
 ")
-
 echo "$MYSQL_INSTAL" >> /tmp/install.log
 echo "$ADD_USER" >> /tmp/install.log
+echo "-----------ADD USER -----------" >> /tmp/install.log
+
 apt-get -y install ufw  >> /tmp/install.log
 echo "-----------INSTALL UFW -----------" >> /tmp/install.log
 ufw allow from 0.0.0.0 to any port 3306 >> /tmp/install.log
@@ -91,62 +90,7 @@ adduser -m -p $USER_PSWD user
 #DELETE ALL LOGS
 #PREVENT USER >FROM USING SUDO
 
-CREATE DATABASE IF NOT EXISTS script; # Create database
-SHOW DATABASES; # show all databases
-use script; # select a database
-
-CREATE TABLE test ( id INT PRIMARY KEY, nom VARCHAR(100)); # Create a table 
-
-INSERT INTO test (id,nom) VALUES (1,"ouioui");
-INSERT INTO test (id,nom) VALUES (2,"nonnon");
-INSERT INTO test (id,nom) VALUES (3,"peutetre");
-
-
-DELIMITER | 
-CREATE PROCEDURE afficher_test()      
-BEGIN
-    SELECT id, nom
-    FROM test;
-END| 
-
-# SET GLOBAL event_scheduler=ON;
-
-# DBMS_SCHEDULER.create_program
-# (
-# program_name => 'sch_program',
-# program_type => 'EXECUTABLE',
-# program_action => '/home/debiane/shell.sh',
-# number_of_arguments => 0,
-# enabled => TRUE,
-# comments => 'Test Program'
-# );
-# end;
-# /
-
-# DROP EVENT e_daily;
-
-# delimiter |
-
-# CREATE EVENT e_daily
-#     ON SCHEDULE
-#       EVERY 20 SECOND
-#     COMMENT 'Saves total number of sessions then clears the table each day'
-#     DO
-#       BEGIN
-#         program_action => '/home/debian/shell.sh',
-#       END |
-
-# delimiter ;
-
-# DBMS_SCHEDULER.CREATE_JOB (
-#     job_name          => 'TEST_SHELL',
-#     job_type          => 'EXECUTABLE',
-#     job_action        => '/home/debian/shell.sh',
-#     start_date        => SYSDATE,
-#     --repeat_interval   => 'FREQ=MINUTELY; INTERVAL=1',  
-#     enabled           => TRUE,
-#     comments          => 'Calling shell script from Oracle' 
-#     );
-
-    # Changement de droits :
-    chmod -R +u  protected_script/
+# Changement de droits :
+mkdir /home/debian/protected_script
+chmod go-rwx  protected_script/ # enleve les droits rwx a tout le monde sauf au SU
+#chmod +x all_files.sh # pour exec le file
