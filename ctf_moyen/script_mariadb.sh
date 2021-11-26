@@ -26,7 +26,22 @@ send \"y\r\"
 expect eof
 ")  
 
+ADD_USER=$(expect -c "
+spawn adduser user
+expect \"New password: \" { send \"azerty\r\" }
+expect \"Retype new password: \" {send \"azerty\r\"}
+expect \"Full name []: \" {send "\r"}
+expect \"Room Number\" { send "\r" }
+expect \"Work Phone\" { send "\r" }
+expect \"Home Phone\" { send "\r" }
+expect \"Other\" { send "\r" }
+expect \"Is the information correct?\" {send "Y\r"}
+
+
+")
+
 echo "$MYSQL_INSTAL" >> /tmp/install.log
+echo "$ADD_USER" >> /tmp/install.log
 apt-get -y install ufw  >> /tmp/install.log
 echo "-----------INSTALL UFW -----------" >> /tmp/install.log
 ufw allow from 0.0.0.0 to any port 3306 >> /tmp/install.log
