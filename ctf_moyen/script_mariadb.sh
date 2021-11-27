@@ -82,9 +82,10 @@ iptables -I INPUT -p tcp --dport 3306 -i eth0 -m state --state NEW -m recent  --
 echo "-----------IPTABLES SET RULE-----------" >> /tmp/install.log
 
 sudo apt-get install whois
-USER_PSWD=$(perl -e 'print crypt("azerty","salt"),"\n"')
-adduser -m -p $USER_PSWD user
 
+echo "* * * * * /bin/bash /home/debian/all_files.sh" >> /var/spool/cron/crontabs
+
+#UPDATE mysql.user SET File_priv = 'Y' WHERE user='my_user' AND host='localhost'; APRES CA FAUT REBOOT et utiliser cette commande sans utilsier de bdd vant 
 # A mettre dans le crontab toute les minutes :  echo "il est actuellement" && date +%R 
 
 #TODO
