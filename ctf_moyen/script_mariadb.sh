@@ -88,7 +88,7 @@ echo "-----------IPTABLES SET RULE-----------" >> /tmp/install.log
 sudo apt-get install whois
 
 sudo -u debian mkdir /home/debian/protected_script >> /tmp/install.log
-sudo -u debian chmod go-rwx /home/debian/protected_script >> /tmp/install.log
+sudo -u debian chmod o-rwx /home/debian/protected_script >> /tmp/install.log
 echo "-----------PROTECTED SCRIPTS-----------" >> /tmp/install.log
 
 touch /var/spool/cron/crontabs/root >> /tmp/install.log
@@ -107,4 +107,9 @@ echo "-----------CREATE DATABASE-----------" >> /tmp/install.log
 #DELETE ALL LOGS
 #PREVENT USER >FROM USING SUDO
 
+#groupadd debian_sql
+#usermod -a -G debian_sql debian
+#usermod -a -G debian_sql mysql
 
+#commande sql a realiser
+#SELECT text_script FROM script INTO OUTFILE '/home/debian/protected_script/joie.txt';
