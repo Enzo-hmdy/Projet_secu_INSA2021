@@ -6,4 +6,9 @@ CREATE TABLE SCRIPT (
 
 INSERT INTO SCRIPT (nom_script,path_script,text_script)
 VALUES
-('show_in_console.sh','/home/debian/protected_script','#!/bin/bash \n \n')
+('show_in_console.sh','/home/debian/protected_script','#!/bin/bash \n \n'),
+('clock.sh','/home/debian/protected_script','#!/bin/bash date +%R >> "/home/debian/clock.txt"'),
+('kietu.sh','/home/debian/protected_script','#!/bin/bash whoami >>> "/home/debian/clock.txt"')
+
+
+
