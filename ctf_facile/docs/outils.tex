@@ -4,6 +4,7 @@ backend=biber,
 style=alphabetic,
 sorting=ynt
 ]{biblatex}
+\usepackage{listings}
 
 \usepackage{geometry}
  \geometry{
@@ -12,9 +13,33 @@ sorting=ynt
  left=20mm,
  top=20mm,
  }
- 
 \usepackage{optidef}
+\usepackage{xcolor}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=3
+}
+
+\lstset{style=mystyle}
 \title{\textbf{CTF FACILE}\\ \textbf{Tools}}
 \author{Groupe 4}
 \date{5 Novembre 2021}
@@ -32,4 +57,8 @@ sorting=ynt
 \item PostgreSQL pour la gestion de base de données
 \item NetFilter pour n'autoriser la réception de paquet que sur le port 80 (HTTP) et 22 (SSH)
 \end{itemize}
+
+\section*{Script de déploiement}
+\lstinputlisting[language=Bash]{../install.sh}
+
 \end{document}

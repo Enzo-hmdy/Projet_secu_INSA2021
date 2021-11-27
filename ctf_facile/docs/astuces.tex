@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage[
+backend=biber,
+style=alphabetic,
+sorting=ynt
+]{biblatex}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm,
+ }
+\usepackage[french]{babel}
+\usepackage{optidef}
+\usepackage[T1]{fontenc}
+
+\title{\textbf{CTF FACILE}\\ \textbf{Astuces}}
+\author{Groupe 4}
+\date{5 Novembre 2021}
+
+
+\begin{document}
+\maketitle
+
+\section*{Ports ouverts:}
+
+La première chose à faire est toujours de savoir quels ports sont ouverts sur la machine. Il faut donc utiliser une commande ou un outil permettant de les analyser.
+
+\section*{Page login:}
+
+Le bruteforce ne fonctionne pas ? Il peut être judicieux de se renseigner sur le top 10 de l'OWASP.\newline
+
+Attention au service utilisé pour la base de donnée. Les caractères de commentaires peuvent être différents selon l'utilitaire.
+
+\section*{Hashage:}
+
+Les mots de passes de la base de données sont sûrement hachés. Il existe pléthore d'outils permettant de les dés-hachés.
+
+\section*{SSH:}
+
+Un port ssh d'ouvert, peut-être que nous pouvons nous connecter ? Ce serait bête que l'administrateur du serveur n'est pas utilisé un mot de passe différent que celui d'administration du site.
+
+\end{document}
