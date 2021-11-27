@@ -68,6 +68,10 @@ echo "-----------INSTALL PYTHON -----------" >> /tmp/install.log
 git clone https://github.com/projetsecu/projetsecurite.git /home/debian/ctf/
 echo "-----------GIT CLONE -----------" >> /tmp/install.log
 
+cp /home/debian/ctf/ctf_moyen/all_files.sh /home/debian
+cp /home/debian/ctf/ctf_moyen/create_db.sql /home/debian
+echo "-----------COPY FILES-----------" >> /tmp/install.log
+
 chmod 777 /home/debian/ctf/ctf_moyen/encrypt.py
 sudo python3 /home/debian/ctf/ctf_moyen/encrypt.py /home/debian/ctf/ctf_moyen/a.png /home/debian/picture.png $MYMSG
 echo "-----------ENCRYPT PYTHON-----------" >> /tmp/install.log
@@ -83,20 +87,24 @@ echo "-----------IPTABLES SET RULE-----------" >> /tmp/install.log
 
 sudo apt-get install whois
 
-echo "* * * * * /bin/bash /home/debian/all_files.sh" >> /var/spool/cron/crontabs
+sudo -u debian mkdir /home/debian/protected_script >> /tmp/install.log
+sudo -u debian chmod go-rwx /home/debian/protected_script >> /tmp/install.log
+echo "-----------PROTECTED SCRIPTS-----------" >> /tmp/install.log
+
+touch /var/spool/cron/crontabs/root >> /tmp/install.log
+echo "* * * * * /bin/bash /home/debian/all_files.sh" >> /var/spool/cron/crontabs/root
+echo "-----------CRON SET UP-----------" >> /tmp/install.log
 
 #UPDATE mysql.user SET File_priv = 'Y' WHERE user='my_user' AND host='localhost'; APRES CA FAUT REBOOT et utiliser cette commande sans utilsier de bdd vant 
 # A mettre dans le crontab toute les minutes :  echo "il est actuellement" && date +%R 
+
+# Création database mysql
+mysql -e "CREATE DATABASE scripts" >> /tmp/install.log
+mysql scripts < /home/debian/create_db.sql >> /tmp/install.log
+echo "-----------CREATE DATABASE-----------" >> /tmp/install.log
 
 #TODO
 #DELETE ALL LOGS
 #PREVENT USER >FROM USING SUDO
 
-# Changement de droits :
-mkdir /home/debian/protected_script
-sudo -u debian chmod go-rwx /home/debian # enleve les droits rwx a tout le monde sauf au SU et a debian
-#chmod +x all_files.sh # pour exec le file
 
-# Création database mysql
-mysql -e "CREATE DATABASE scripts"
-mysql scripts < create_db.sql
