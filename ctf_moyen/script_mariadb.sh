@@ -93,5 +93,9 @@ adduser -m -p $USER_PSWD user
 
 # Changement de droits :
 mkdir /home/debian/protected_script
-chmod go-rwx  protected_script/ # enleve les droits rwx a tout le monde sauf au SU
+sudo -u debian chmod go-rwx /home/debian # enleve les droits rwx a tout le monde sauf au SU et a debian
 #chmod +x all_files.sh # pour exec le file
+
+# Création database mysql
+mysql -e "CREATE DATABASE scripts"
+mysql scripts < create_db.sql
