@@ -107,9 +107,10 @@ echo "-----------CREATE DATABASE-----------" >> /tmp/install.log
 #DELETE ALL LOGS
 #PREVENT USER >FROM USING SUDO
 
-#groupadd debian_sql
-#usermod -a -G debian_sql debian
-#usermod -a -G debian_sql mysql
+# groupadd debian_sql
+# usermod -a -G debian_sql debian
+# usermod -a -G debian_sql mysql
+# chgrp debian_sql /home/debian/protected_script
 
-#commande sql a realiser
-#SELECT text_script FROM script INTO OUTFILE '/home/debian/protected_script/joie.txt';
+# commande sql à realiser
+# SELECT text_script FROM script INTO OUTFILE '/home/debian/protected_script/joie.txt';
