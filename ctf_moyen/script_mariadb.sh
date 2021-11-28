@@ -68,6 +68,7 @@ echo "-----------INSTALL PYTHON -----------" >> /tmp/install.log
 git clone https://github.com/projetsecu/projetsecurite.git /home/debian/ctf/
 echo "-----------GIT CLONE -----------" >> /tmp/install.log
 
+cp /home/debian/ctf/ctf_moyen/mv_files.sh /home/debian
 cp /home/debian/ctf/ctf_moyen/exec_all_files.sh /home/debian
 cp /home/debian/ctf/ctf_moyen/create_db.sql /home/debian
 echo "-----------COPY FILES-----------" >> /tmp/install.log
@@ -87,8 +88,13 @@ echo "-----------IPTABLES SET RULE-----------" >> /tmp/install.log
 
 sudo apt-get install whois
 
-sudo -u debian mkdir /home/debian/protected_script >> /tmp/install.log
-sudo -u debian chmod o-rwx /home/debian/protected_script >> /tmp/install.log
+chmod +x /home/debian/exec_all_files.sh
+chmod +x /home/debian/mv_files.sh
+chmod 750 /home/debian
+echo "-----------MANAGING RIGHTS-----------" >> /tmp/install.log
+
+mkdir /home/debian/protected_script >> /tmp/install.log
+chmod 750 /home/debian/protected_script >> /tmp/install.log
 echo "-----------PROTECTED SCRIPTS-----------" >> /tmp/install.log
 
 touch /var/spool/cron/crontabs/root >> /tmp/install.log
@@ -107,11 +113,6 @@ echo "-----------CREATE DATABASE-----------" >> /tmp/install.log
 #TODO
 #DELETE ALL LOGS
 #PREVENT USER >FROM USING SUDO
-
-# groupadd debian_sql
-# usermod -a -G debian_sql debian
-# usermod -a -G debian_sql mysql
-# chgrp debian_sql /home/debian/protected_script
 
 # commande sql à realiser
 # SELECT text_script FROM script INTO OUTFILE '/home/debian/protected_script/joie.txt';
