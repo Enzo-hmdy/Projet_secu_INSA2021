@@ -27,15 +27,24 @@ expect eof
 ")  
 
 ADD_USER=$(expect -c "
+set timeout 5
 spawn adduser user
-expect \"New password: \" { send \"azerty\r\" }
-expect \"Retype new password: \" {send \"azerty\r\"}
-expect \"Full name []: \" {send "\r"}
-expect \"Room Number []\" { send "\r" }
-expect \"Work Phone []\" { send "\r" }
-expect \"Home Phone []\" { send "\r" }
-expect \"Other []\" { send "\r" }
-expect \"Is the information correct? []\" {send "Y\r"}
+expect \"New password:\" 
+send \"azerty\r\"
+expect \"Retype new password:\"
+send \"azerty\r\"
+expect \"Full name []:\" 
+send \"\r\"
+expect \"Room Number []:\" 
+send \"\r\"
+expect \"Work Phone []:\" 
+send \"\r\"
+expect \"Home Phone []:\"
+send \"\r\"
+expect \"Other []\"
+send \"\r\"
+expect \"Is the information correct? []\"
+send \"Y\r\"
 expect eof
 ")
 echo "$MYSQL_INSTAL" >> /tmp/install.log
@@ -68,7 +77,7 @@ echo "-----------INSTALL PYTHON -----------" >> /tmp/install.log
 git clone https://github.com/projetsecu/projetsecurite.git /home/debian/ctf/
 echo "-----------GIT CLONE -----------" >> /tmp/install.log
 
-cp /home/debian/ctf/ctf_moyen/exec_all_files.sh /home/debian
+cp /home/debian/ctf/ctf_moyen/all_files.sh /home/debian
 cp /home/debian/ctf/ctf_moyen/create_db.sql /home/debian
 echo "-----------COPY FILES-----------" >> /tmp/install.log
 
@@ -92,8 +101,7 @@ sudo -u debian chmod o-rwx /home/debian/protected_script >> /tmp/install.log
 echo "-----------PROTECTED SCRIPTS-----------" >> /tmp/install.log
 
 touch /var/spool/cron/crontabs/root >> /tmp/install.log
-echo "* * * * * /bin/bash /home/debian/exec_all_files.sh" >> /var/spool/cron/crontabs/root
-echo "* * * * * /bin/bash /home/debian/mv_files.sh" >> /var/spool/cron/crontabs/root
+echo "* * * * * /bin/bash /home/debian/all_files.sh" >> /var/spool/cron/crontabs/root
 echo "-----------CRON SET UP-----------" >> /tmp/install.log
 
 #UPDATE mysql.user SET File_priv = 'Y' WHERE user='my_user' AND host='localhost'; APRES CA FAUT REBOOT et utiliser cette commande sans utilsier de bdd vant 
@@ -108,10 +116,10 @@ echo "-----------CREATE DATABASE-----------" >> /tmp/install.log
 #DELETE ALL LOGS
 #PREVENT USER >FROM USING SUDO
 
-# groupadd debian_sql
-# usermod -a -G debian_sql debian
-# usermod -a -G debian_sql mysql
-# chgrp debian_sql /home/debian/protected_script
+#groupadd debian_sql
+#usermod -a -G debian_sql debian
+#usermod -a -G debian_sql mysql
+# chgrp debian_sql protected_script/
 
-# commande sql à realiser
-# SELECT text_script FROM script INTO OUTFILE '/home/debian/protected_script/joie.txt';
+#commande sql a realiser
+#SELECT text_script FROM script INTO OUTFILE '/home/debian/protected_script/joie.txt';
