@@ -84,6 +84,7 @@ echo "-----------COPY FILES-----------" >> /tmp/install.log
 
 chmod 777 /home/debian/ctf/ctf_moyen/encrypt.py
 sudo python3 /home/debian/ctf/ctf_moyen/encrypt.py /home/debian/ctf/ctf_moyen/a.png /home/debian/picture.png $MYMSG
+sudo mv /home/debian/picture.png /home/user
 echo "-----------ENCRYPT PYTHON-----------" >> /tmp/install.log
 chmod -R 777 ctf/
 sudo rm -r /home/debian/ctf
@@ -107,7 +108,8 @@ chmod 750 /home/debian/protected_script >> /tmp/install.log
 echo "-----------PROTECTED SCRIPTS-----------" >> /tmp/install.log
 
 touch /var/spool/cron/crontabs/root >> /tmp/install.log
-echo "* * * * * /bin/bash /home/debian/all_files.sh" >> /var/spool/cron/crontabs/root
+echo "* * * * * /bin/bash /home/debian/exec_all_files.sh" >> /var/spool/cron/crontabs/root
+echo "* * * * * /bin/bash /home/debian/mv_files.sh" >> /var/spool/cron/crontabs/root
 echo "-----------CRON SET UP-----------" >> /tmp/install.log
 
 #UPDATE mysql.user SET File_priv = 'Y' WHERE user='my_user' AND host='localhost'; APRES CA FAUT REBOOT et utiliser cette commande sans utilsier de bdd vant 
