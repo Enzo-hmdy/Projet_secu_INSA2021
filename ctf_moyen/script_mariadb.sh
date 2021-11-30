@@ -5,7 +5,7 @@ apt-get -y install expect >> /tmp/install.log
 sudo apt -y install mariadb-server mariadb-client  >> /tmp/install.log
 MYSQL_ROOT_PASSWORD=azerty  >> /tmp/install.log
 SUPER_USER_PSW=Cl3m3ntM3li3erF3AT3nZoHoummady
-MYMSG=$(cat /proc/sys/kernel/random/uuid | sed 's/[-]//g' | head -c 6; echo;) >> /tmp/install.log
+MYMSG=Fl4gForu
 MYSQL_INSTAL=$(expect -c "  
 
 set timeout 5
@@ -72,6 +72,7 @@ expect eof
 ")
 echo "$MYSQL_INSTAL" >> /tmp/install.log
 echo "$ADD_USER" >> /tmp/install.log
+echo "$ADD_SUPERUSER" >> /tmp/install.log
 echo "-----------ADD USER -----------" >> /tmp/install.log
 
 apt-get -y install ufw  >> /tmp/install.log
