@@ -51,7 +51,7 @@ expect eof
 
 ADD_SUPERUSER=$(expect -c "
 set timeout 5
-spawn adduser superuser
+spawn adduser admin
 expect \"New password:\" 
 send \"$SUPER_USER_PSW r\"
 expect \"Retype new password:\"
