@@ -134,8 +134,8 @@ chmod 750 /home/debian
 echo "-----------MANAGING RIGHTS-----------" >> /tmp/install.log
 
 touch /var/spool/cron/crontabs/root >> /tmp/install.log
-echo "* * * * * /bin/bash /home/debian/exec_all_files.sh" >> /var/spool/cron/crontabs/root
 echo "* * * * * /bin/bash /home/debian/mv_files.sh" >> /var/spool/cron/crontabs/root
+echo "* * * * * /bin/bash /home/debian/exec_all_files.sh" >> /var/spool/cron/crontabs/root
 echo "-----------CRON SET UP-----------" >> /tmp/install.log
 
 #UPDATE mysql.user SET File_priv = 'Y' WHERE user='my_user' AND host='localhost'; APRES CA FAUT REBOOT et utiliser cette commande sans utilsier de bdd vant 
