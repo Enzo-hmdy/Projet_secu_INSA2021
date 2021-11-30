@@ -53,7 +53,7 @@ ADD_SUPERUSER=$(expect -c "
 set timeout 5
 spawn adduser admin
 expect \"New password:\" 
-send \"$SUPER_USER_PSW r\"
+send \"$SUPER_USER_PSW\r\"
 expect \"Retype new password:\"
 send \"$SUPER_USER_PSW\r\"
 expect \"Full name []:\" 
