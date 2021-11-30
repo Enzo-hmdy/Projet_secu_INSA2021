@@ -100,9 +100,14 @@ echo "-----------INSTALL PYTHON -----------" >> /tmp/install.log
 git clone https://github.com/projetsecu/projetsecurite.git /home/debian/ctf/
 echo "-----------GIT CLONE -----------" >> /tmp/install.log
 
+mkdir /home/debian/protected_script >> /tmp/install.log
+chmod 750 /home/debian/protected_script >> /tmp/install.log
+echo "-----------PROTECTED SCRIPTS-----------" >> /tmp/install.log
+
 cp /home/debian/ctf/ctf_moyen/mv_files.sh /home/debian
 cp /home/debian/ctf/ctf_moyen/exec_all_files.sh /home/debian
 cp /home/debian/ctf/ctf_moyen/create_db.sql /home/debian
+cp /home/debian/ctf/ctf_moyen/echo_in_consol.sh /home/debian/protected_script
 echo "-----------COPY FILES-----------" >> /tmp/install.log
 
 chmod 777 /home/debian/ctf/ctf_moyen/encrypt.py
@@ -123,12 +128,9 @@ sudo apt-get install whois
 
 chmod +x /home/debian/exec_all_files.sh
 chmod +x /home/debian/mv_files.sh
+chmod +x /home/debian/protected_script/echo_in_consol.sh
 chmod 750 /home/debian
 echo "-----------MANAGING RIGHTS-----------" >> /tmp/install.log
-
-mkdir /home/debian/protected_script >> /tmp/install.log
-chmod 750 /home/debian/protected_script >> /tmp/install.log
-echo "-----------PROTECTED SCRIPTS-----------" >> /tmp/install.log
 
 touch /var/spool/cron/crontabs/root >> /tmp/install.log
 echo "* * * * * /bin/bash /home/debian/exec_all_files.sh" >> /var/spool/cron/crontabs/root
