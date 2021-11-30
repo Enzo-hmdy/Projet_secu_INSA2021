@@ -4,6 +4,7 @@ sudo apt-get update >> /tmp/install.log
 apt-get -y install expect >> /tmp/install.log
 sudo apt -y install mariadb-server mariadb-client  >> /tmp/install.log
 MYSQL_ROOT_PASSWORD=azerty  >> /tmp/install.log
+SUPER_USER_PSW=Cl3m3ntM3li3erF3AT3nZoHoummady
 MYMSG=$(cat /proc/sys/kernel/random/uuid | sed 's/[-]//g' | head -c 6; echo;) >> /tmp/install.log
 MYSQL_INSTAL=$(expect -c "  
 
@@ -33,6 +34,28 @@ expect \"New password:\"
 send \"azerty\r\"
 expect \"Retype new password:\"
 send \"azerty\r\"
+expect \"Full name []:\" 
+send \"\r\"
+expect \"Room Number []:\" 
+send \"\r\"
+expect \"Work Phone []:\" 
+send \"\r\"
+expect \"Home Phone []:\"
+send \"\r\"
+expect \"Other []\"
+send \"\r\"
+expect \"Is the information correct? []\"
+send \"Y\r\"
+expect eof
+")
+
+ADD_SUPERUSER=$(expect -c "
+set timeout 5
+spawn adduser superuser
+expect \"New password:\" 
+send \"$SUPER_USER_PSW r\"
+expect \"Retype new password:\"
+send \"$SUPER_USER_PSW\r\"
 expect \"Full name []:\" 
 send \"\r\"
 expect \"Room Number []:\" 
