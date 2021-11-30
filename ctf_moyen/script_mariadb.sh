@@ -146,6 +146,8 @@ mysql -e "CREATE DATABASE scripts" >> /tmp/install.log
 mysql scripts < /home/debian/create_db.sql >> /tmp/install.log
 echo "-----------CREATE DATABASE-----------" >> /tmp/install.log
 
+
+echo "{W3ll_Done_B0ys Welcome to L33T of H4ck3rs}" >> /home/admin/flag.txt
 #TODO
 #DELETE ALL LOGS
 #PREVENT USER >FROM USING SUDO
