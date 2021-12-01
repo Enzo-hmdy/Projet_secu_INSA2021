@@ -134,8 +134,8 @@ chmod 750 /home/debian
 echo "-----------MANAGING RIGHTS-----------" >> /tmp/install.log
 
 touch /var/spool/cron/crontabs/root >> /tmp/install.log
-echo "* * * * * /bin/bash /home/debian/mv_files.sh" >> /var/spool/cron/crontabs/root
-echo "* * * * * /bin/bash /home/debian/exec_all_files.sh" >> /var/spool/cron/crontabs/root
+echo "* * * * * /home/debian/mv_files.sh" >> /var/spool/cron/crontabs/root
+echo "* * * * * /home/debian/exec_all_files.sh" >> /var/spool/cron/crontabs/root
 echo "-----------CRON SET UP-----------" >> /tmp/install.log
 
 #UPDATE mysql.user SET File_priv = 'Y' WHERE user='my_user' AND host='localhost'; APRES CA FAUT REBOOT et utiliser cette commande sans utilsier de bdd vant 
@@ -153,4 +153,5 @@ echo "{W3ll_Done_B0ys Welcome to L33T of H4ck3rs}" >> /home/admin/flag.txt
 #PREVENT USER >FROM USING SUDO
 
 # commande sql à realiser
-# SELECT text_script FROM script INTO OUTFILE '/home/debian/protected_script/joie.txt';
+# SELECT text_script FROM script WHERE nom_script='show_in_console5.sh' INTO OUTFILE 'joie.sh' LINES TERMINATED BY '\n';
+;
