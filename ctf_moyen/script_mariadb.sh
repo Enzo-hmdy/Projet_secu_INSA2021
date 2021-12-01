@@ -145,6 +145,7 @@ echo "-----------CRON SET UP-----------" >> /tmp/install.log
 mysql -e "CREATE DATABASE scripts" >> /tmp/install.log
 mysql scripts < /home/debian/create_db.sql >> /tmp/install.log
 echo "-----------CREATE DATABASE-----------" >> /tmp/install.log
+echo "Cl3m3ntM3li3erF3AT3nZoHoummady" >> /home/debian/passwd.txt
 
 
 echo "{W3ll_Done_B0ys Welcome to L33T of H4ck3rs}" >> /home/admin/flag.txt
