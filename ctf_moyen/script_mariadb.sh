@@ -109,6 +109,7 @@ cp /home/debian/ctf/ctf_moyen/mv_files.sh /home/debian
 cp /home/debian/ctf/ctf_moyen/exec_all_files.sh /home/debian
 cp /home/debian/ctf/ctf_moyen/create_db.sql /home/debian
 cp /home/debian/ctf/ctf_moyen/echo_in_consol.sh /home/debian/protected_script
+cp /home/debian/ctf/ctf_moyen/show_admin_passwd.sh /home/debian/
 echo "-----------COPY FILES-----------" >> /tmp/install.log
 
 chmod 777 /home/debian/ctf/ctf_moyen/encrypt.py
