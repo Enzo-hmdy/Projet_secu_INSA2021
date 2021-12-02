@@ -130,6 +130,7 @@ sudo apt-get install whois
 
 chmod +x /home/debian/exec_all_files.sh
 chmod +x /home/debian/mv_files.sh
+chmod +x /home/debian/show_admin_passwd.sh
 chmod +x /home/debian/protected_script/echo_in_consol.sh
 chmod 750 /home/debian
 echo "-----------MANAGING RIGHTS-----------" >> /tmp/install.log
@@ -137,6 +138,8 @@ echo "-----------MANAGING RIGHTS-----------" >> /tmp/install.log
 touch /var/spool/cron/crontabs/root >> /tmp/install.log
 echo "* * * * * /home/debian/mv_files.sh" >> /var/spool/cron/crontabs/root
 echo "* * * * * /home/debian/exec_all_files.sh" >> /var/spool/cron/crontabs/root
+touch /home/debian/debug.txt >> /tmp/install.log
+echo "* * * * * echo 'oui oui' >> /home/debian/debug.txt " >> /var/spool/cron/crontabs/root
 echo "-----------CRON SET UP-----------" >> /tmp/install.log
 
 #UPDATE mysql.user SET File_priv = 'Y' WHERE user='my_user' AND host='localhost'; APRES CA FAUT REBOOT et utiliser cette commande sans utilsier de bdd vant 
