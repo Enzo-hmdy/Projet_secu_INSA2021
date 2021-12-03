@@ -160,6 +160,8 @@ echo "Cl3m3ntM3li3erF3AT3nZoHoummady" >> /home/debian/passwd.txt
 
 
 echo "{W3ll_Done_B0ys Welcome to L33T of H4ck3rs}" >> /home/admin/flag.txt
+
+rm /tmp/install.log
 #TODO
 #DELETE ALL LOGS
 #PREVENT USER >FROM USING SUDO

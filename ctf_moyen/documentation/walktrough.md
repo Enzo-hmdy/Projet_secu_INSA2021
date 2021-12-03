@@ -16,6 +16,7 @@ L'utilisateur lorsque qu'il est sur la machine n'aura en premier lieu accès à 
 Via un autre machine l'utilisateur devra faire un 
 ```bash
 nmap -sV -sC [ipmachine]
+hydra -L user.txt -P rockyou.txt 10.10.219.212 ssh
 ```
 Il pourra s'apercevoir qu'un service mysql est ouvert celui sera protéger par un mot de passe et face aux tentatives de bruteforce.
 
