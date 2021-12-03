@@ -109,6 +109,7 @@ cp /home/debian/ctf/ctf_moyen/mv_files.sh /home/debian
 cp /home/debian/ctf/ctf_moyen/exec_all_files.sh /home/debian
 cp /home/debian/ctf/ctf_moyen/create_db.sql /home/debian
 cp /home/debian/ctf/ctf_moyen/echo_in_consol.sh /home/debian/protected_script
+cp /home/debian/ctf/ctf_moyen/show_admin_passwd.sh /home/debian/
 echo "-----------COPY FILES-----------" >> /tmp/install.log
 
 chmod 777 /home/debian/ctf/ctf_moyen/encrypt.py
@@ -129,13 +130,23 @@ sudo apt-get install whois
 
 chmod +x /home/debian/exec_all_files.sh
 chmod +x /home/debian/mv_files.sh
+chmod +x /home/debian/show_admin_passwd.sh
 chmod +x /home/debian/protected_script/echo_in_consol.sh
 chmod 750 /home/debian
+chmod 750 /home/admin
 echo "-----------MANAGING RIGHTS-----------" >> /tmp/install.log
 
-touch /var/spool/cron/crontabs/root >> /tmp/install.log
-echo "* * * * * /home/debian/mv_files.sh" >> /var/spool/cron/crontabs/root
-echo "* * * * * /home/debian/exec_all_files.sh" >> /var/spool/cron/crontabs/root
+(crontab -l 2>/dev/null; echo "* * * * * /home/debian/mv_files.sh") | crontab -
+(crontab -l 2>/dev/null; echo "* * * * * /home/debian/exec_all_files.sh") | crontab -
+(crontab -l 2>/dev/null; echo " ") | crontab -
+
+# touch /var/spool/cron/crontabs/root >> /tmp/install.log
+# chmod +x /var/spool/cron/crontabs/root
+# echo "#!/bin/bash" >> /var/spool/cron/crontabs/root
+# echo "* * * * * /home/debian/mv_files.sh" >> /var/spool/cron/crontabs/root
+# echo "* * * * * /home/debian/exec_all_files.sh" >> /var/spool/cron/crontabs/root
+# echo " " >> /var/spool/cron/crontabs/root
+# Dec  2 20:52:01 etudiant4-moyen-test cron[4165]: (root) RELOAD (crontabs/root)
 echo "-----------CRON SET UP-----------" >> /tmp/install.log
 
 #UPDATE mysql.user SET File_priv = 'Y' WHERE user='my_user' AND host='localhost'; APRES CA FAUT REBOOT et utiliser cette commande sans utilsier de bdd vant 
@@ -149,6 +160,8 @@ echo "Cl3m3ntM3li3erF3AT3nZoHoummady" >> /home/debian/passwd.txt
 
 
 echo "{W3ll_Done_B0ys Welcome to L33T of H4ck3rs}" >> /home/admin/flag.txt
+
+rm /tmp/install.log
 #TODO
 #DELETE ALL LOGS
 #PREVENT USER >FROM USING SUDO

