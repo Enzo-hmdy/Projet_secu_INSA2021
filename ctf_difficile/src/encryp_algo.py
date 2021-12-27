@@ -2,6 +2,9 @@ import sys
 from os import close, putenv
 from typing import List
 from itertools import cycle
+from des import des
+from Crypto.Cipher import DES3
+from hashlib import md5
 
 
 def split_string(word):
@@ -70,7 +73,20 @@ def enigma(file, key):
 
 
 def DES(file, key):
-    pass
+    d = des()
+    return d.encrypt(key, file)
+
+
+def TRIPLE_DES(file, key):
+    hash_key = md5(key.encode("ascii")).digest()
+    TDES_key = DES3.adjust_key_parity(hash_key)
+    encrypted = DES3.new(TDES_key, DES3.MODE_CBC, nonce=b"0")
+    path = ""
+    myfile = file.read()
+    bytes = encrypted.encrypt(myfile)
+
+    with open(path, "wb") as o_file:
+        o_file.write(bytes)
 
 
 def AES(file, key):
