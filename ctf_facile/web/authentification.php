@@ -45,7 +45,7 @@ if(isset($_POST['username']) && isset($_POST['password']))
         $reponse      = pg_num_rows($exec_requete);
         if($reponse == 1) // nom d'utilisateur et mot de passe corrects
         {
-           $_SESSION['username'] = $username;
+           $_SESSION['username'] = pg_fetch_array(pg_query($db, "SELECT id FROM users WHERE id='$username';" ))[0];
            $_SESSION['password'] = $_POST['password'];
            $_SESSION['login'] = true;
            header('Location: home.php');
