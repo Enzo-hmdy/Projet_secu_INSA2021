@@ -7,9 +7,8 @@ s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.connect(("8.8.8.8", 80))
 own_IP = s.getsockname()[0]
 
-'''ping tout le monde '''
-for i in range (255) :
-    os.system('ping 172.10.0.' + str(i) +' -c1')
+os.system('sudo apt install nmap -y')
+os.system('nmap -sn 172.10.0.0-255')
 
 '''récuperer les IP du caches ARP'''
 output = subprocess.check_output("sudo arp -a", shell=True)
