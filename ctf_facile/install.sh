@@ -77,6 +77,8 @@ iptables -t filter -A INPUT -i lo -j ACCEPT
 
 #On accepte les paquets arrivant et partant du port 22 et 80 (port ssh, port http) on jette tout le reste
 iptables -A INPUT -p tcp -m tcp -m multiport ! --dports 80,443,22 -j DROP
+iptables -I INPUT -p tcp --dport 22 -m state --state NEW -m recent --set
+iptables -I INPUT -p tcp --dport 22 -m state --state NEW -m recent  --update --seconds 300 --hitcount 4 -j DROP
 
 #ON MODIFIE LES FICHIERS SUDOERS ET SSHD_CONFIG
  #update /etc/sudoers.d/90-cloud-init-users
