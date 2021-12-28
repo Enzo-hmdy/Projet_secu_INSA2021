@@ -2,7 +2,6 @@ import socket
 import subprocess
 import os
 
-'''récuper sa propre addresse IP'''
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.connect(("8.8.8.8", 80))
 own_IP = s.getsockname()[0]
@@ -10,7 +9,6 @@ own_IP = s.getsockname()[0]
 os.system('sudo apt install nmap -y')
 os.system('nmap -sn 172.10.0.0-255')
 
-'''récuperer les IP du caches ARP'''
 output = subprocess.check_output("sudo arp -a", shell=True)
 ip_list = []
 pointer = 0
@@ -28,8 +26,3 @@ while pointer < len(output) :
 print("own IP : ",own_IP)
 print("IP list: ",ip_list)
             
-# -------- ID d'execution de commande linux --------
-#os.system('')
-# output = subprocess.Popen(['ls', '-l'], stdout=subprocess.PIPE).communicate()[0]
-# sudo apt-get install -y netdiscover
-# ping 172.10.0.255 -b
