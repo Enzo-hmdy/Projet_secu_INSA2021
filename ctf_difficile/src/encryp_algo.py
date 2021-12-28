@@ -41,31 +41,39 @@ def plain_to_bin(data):
 
 
 def cesar(file, key):
-    letter = split_string(key)
-    split_file = file.split()
-
     cpt = 0
-    my_list = []
-    for i in range(len(split_file)):
-        for y in range(len(split_file[i])):
-            my_list.append(cesar_crypt(letter[cpt % len(letter)], split_file[i][y]))
+    ciphertext = ""
+    cesar_letter = split_string(key)
 
-        cpt = cpt + 1
-    return my_list
+    with open(file, "rb") as in_file:
+        for word in in_file:
+            for character in word:
+                ciphertext += cesar_crypt(
+                    cesar_letter[cpt % len(cesar_letter)], character
+                )
+
+            cpt = cpt + 1
+
+            with open("cesar.txt", "w") as o_file:
+                o_file.write(ciphertext)
 
 
 def vigenere(file, key):
-    letter = split_string(key)
-    split_file = file.split()
-
     cpt = 0
-    my_list = []
-    for i in range(len(split_file)):
-        for y in range(len(split_file[i])):
-            my_list.append(cesar_crypt(letter[cpt % len(letter)], split_file[i][y]))
-            cpt = cpt + 1
+    ciphertext = ""
+    cesar_letter = split_string(key)
 
-    return my_list
+    with open(file, "rb") as in_file:
+        for word in in_file:
+            for character in word:
+                ciphertext += cesar_crypt(
+                    cesar_letter[cpt % len(cesar_letter)], character
+                )
+
+                cpt = cpt + 1
+
+            with open("vigenere.txt", "w") as o_file:
+                o_file.write(ciphertext)
 
 
 def enigma(file, key):
@@ -74,7 +82,10 @@ def enigma(file, key):
 
 def DES(file, key):
     d = des()
-    return d.encrypt(key, file)
+    bytes = d.encrypt(key, file)
+    path = ""
+    with open(path, "wb") as o_file:
+        o_file.write(bytes)
 
 
 def TRIPLE_DES(file, key):
