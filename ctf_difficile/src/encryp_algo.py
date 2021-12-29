@@ -1,12 +1,15 @@
+import os
 import sys
-from os import close, putenv
+import struct
+from os import close, putenv, urandom
 from typing import List
 from itertools import cycle, islice
 from des import des
-from Cryptodome.Cipher import DES3
-from hashlib import md5
+from Cryptodome.Cipher import DES3, AES
+from hashlib import md5, sha256
 import functools
 import operator
+import random
 
 
 def split_string(word):
@@ -22,8 +25,9 @@ def cesar_crypt(key, letter):
         return chr(65 + (ord(letter) - 65 + ord(key)) % 26)
     elif 97 <= ord(letter) <= 122:
         return chr(97 + (ord(letter) - 97 + ord(key)) % 26)
+    elif 48 <= ord(letter) <= 57:
+        return chr(48 + (ord(letter) - 48 + ord(key)) % 10)
     else:
-
         return str(letter)
 
 
@@ -64,10 +68,7 @@ def vigenere(in_file, key, o_file):
     ciphertext = ""
     cesar_letter = split_string(key)
     for word in in_file:
-        print(word)
-
         for character in word:
-            print(character)
             ciphertext += cesar_crypt(cesar_letter[cpt % len(cesar_letter)], character)
 
             cpt = cpt + 1
@@ -95,8 +96,23 @@ def TRIPLE_DES(file, key, path):
     path.write(bytes)
 
 
-def AES(file, key):
-    pass
+def ency_AES(i_file, key, o_file, path_name, size=64 * 1024):
+    iv = os.urandom(16)
+    hash_key = sha256(key.encode("ascii")).digest()
+    # AES_KEY = AES.adjust_key_parity(hash_key)
+    encryptor = AES.new(hash_key, AES.MODE_CBC, iv)
+    filesize = os.path.getsize(path_name)
+
+    o_file.write(struct.pack("<Q", filesize))
+    o_file.write(iv)
+    while True:
+        chunk = i_file.read(size)
+        if len(chunk) == 0:
+            break
+        elif len(chunk) % 16 != 0:
+            chunk += b" " * (16 - len(chunk) % 16)
+
+        o_file.write(encryptor.encrypt(chunk))
 
 
 """
@@ -107,14 +123,37 @@ Ordre de chiffrage : césar vigenère xor enigma des aes
 
 def main(argv):
     key = b"ceciestunecle"
+    """with open(
+        "/home/enzo/Documents/Projet_secu/Projet_secu_INSA2021/ctf_difficile/src/test.txt",
+        "r",
+    ) as encry, open("test1.txt", "w+") as o_file:
+        cesar(encry, "ouai", o_file)
+    os.remove("test.txt")
+    os.rename("test1.txt", "test.txt")
+
     with open(
         "/home/enzo/Documents/Projet_secu/Projet_secu_INSA2021/ctf_difficile/src/test.txt",
         "r",
-    ) as encry, open("test8.txt", "w") as o_file:
+    ) as encry, open("test1.txt", "w+") as o_file:
         vigenere(encry, "ouai", o_file)
+    os.remove("test.txt")
+    os.rename("test1.txt", "test.txt")
+    """
+    with open(
+        "/home/enzo/Documents/Projet_secu/Projet_secu_INSA2021/ctf_difficile/src/test.txt",
+        "rb",
+    ) as encry, open("test1.txt", "wb") as o_file:
+        ency_AES(
+            encry,
+            "key",
+            o_file,
+            "/home/enzo/Documents/Projet_secu/Projet_secu_INSA2021/ctf_difficile/src/test.txt",
+        )
+    os.remove("test.txt")
+    os.rename("test1.txt", "test.txt")
 
-        #
-        # decry.write(xor(encry.read(), key))
+    #
+    # decry.write(xor(encry.read(), key))
 
 
 if __name__ == "__main__":
