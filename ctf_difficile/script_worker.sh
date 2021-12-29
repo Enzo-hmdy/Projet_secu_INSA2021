@@ -34,7 +34,7 @@ echo "$ADD_USER"
 firefox -headless&
 cd ~./mozilla/firefox
 FILE=$(find . -type d -name '*.default-esr')
-touch /root/.mozilla/firefox/*.default-esr/logins.json
+touch /root/.mozilla/firefox/$FILE/logins.json
 echo -e "{
     \"nextId\": 2,
     \"logins\": [
