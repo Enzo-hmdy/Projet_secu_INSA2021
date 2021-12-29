@@ -6,6 +6,30 @@ exec >/tmp/install.out.log 2>/tmp/install.err.log
 #Mise a jour des paquets et installation des paquets requis pour le deploiement du CTF
 apt update
 apt install -y firefox-esr
+apt-get install -y expect
+
+ADD_USER=$(expect -c "
+set timeout 5
+spawn adduser dupont
+expect \"New password:\" 
+send \"azerty\r\"
+expect \"Retype new password:\"
+send \"azerty\r\"
+expect \"Full name []:\" 
+send \"\r\"
+expect \"Room Number []:\" 
+send \"\r\"
+expect \"Work Phone []:\" 
+send \"\r\"
+expect \"Home Phone []:\"
+send \"\r\"
+expect \"Other []\"
+send \"\r\"
+expect \"Is the information correct? []\"
+send \"Y\r\"
+expect eof
+")
+echo "$ADD_USER"
 
 firefox -headless&
 
