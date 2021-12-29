@@ -1,11 +1,14 @@
 #!/bin/bash
-echo "-----------INSTALL RACOON IPSEC-TOOLS-----------" >> /etc/apt/sources.list
-echo "deb http://ftp.fr.debian.org/debian stretch main" >> /etc/apt/sources.list
-sudo apt-get update >> /tmp/install.log
-apt-get install -y ipsec-tools >> /tmp/install.log
-apt-get install racoon >> /tmp/install.log
-DEBIAN_FRONTEND=noninteractive apt-get install racoon >> /tmp/install.log
 
+#On retrouvera la sortie standard dans install.out.log et les erreurs dans install.err.log
+exec >/tmp/install.out.log 2>/tmp/install.err.log    
+
+echo "------------------ INSTALLATION DES PAQUETS NECESSAIRES ------------------"
+#Mise a jour des paquets et installation des paquets requis pour le deploiement du CTF
+echo "deb http://ftp.fr.debian.org/debian stretch main" >> /etc/apt/sources.list
+apt update
+apt install -y gcc ipsec-tools racoon
+DEBIAN_FRONTEND=noninteractive 
 
 echo "-----------VARIABLE GLOBALE : IP-----------" >> /etc/apt/sources.list
 IP_ROUTEUR=172.10.0.74
@@ -13,22 +16,6 @@ IP_PATRON=172.10.0.27
 IP_SERVEUR=172.10.0.128 
 ESP_ROUTEUR=021980
 ESP_SERVEUR=0X021980
-
-
-#On retrouvera la sortie standard dans install.out.log et les erreurs dans install.err.log
-exec >/tmp/install.out.log 2>/tmp/install.err.log            
-
-echo "------------------ INSTALLATION DES PAQUETS NECESSAIRES ------------------"
-#Mise a jour des paquets et installation des paquets requis pour le deploiement du CTF
-apt update
-apt install gcc
-
-echo "------------------ IMPORTATION DU GIT------------------"
-#On importe le git contenant les sources pour le site web.
-cd /home/debian/ 
-git clone https://github.com/projetsecu/projetsecurite.git
-
-echo 0 | sudo tee /proc/sys/kernel/randomize_va_space
 
 echo "------------------ IPSEC ------------------" >> /etc/apt/sources.list
 echo -e "
@@ -41,3 +28,11 @@ add $IP_SERVEUR $IP_ROUTEUR esp $ESP_SERVEUR -E des-cbc \x2212345678\x22 -A hmac
 " >> /etc/ipsec-tools.conf
 
 /etc/init.d/setkey restart
+
+echo "------------------ IMPORTATION DU GIT------------------"
+#On importe le git contenant les sources pour le site web.
+cd /home/debian/ 
+git clone https://github.com/projetsecu/projetsecurite.git
+
+echo 0 | sudo tee /proc/sys/kernel/randomize_va_space
+
