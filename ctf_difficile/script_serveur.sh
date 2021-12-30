@@ -39,5 +39,5 @@ cd superentreprise500/
 gcc -no-pie -fno-stack-protector -z execstack script_netcat.c -o script_netcat
 echo 0 | sudo tee /proc/sys/kernel/randomize_va_space
 
-bash scrip_auto.sh
+bash script_auto.sh
 
