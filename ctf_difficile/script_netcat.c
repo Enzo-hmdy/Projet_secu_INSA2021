@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
     if (newsockfd < 0)
         error("ERROR on accept");
 
-    write(newsockfd, "Welcome to NOM_ENTREPRISE's server!\n", 37);
+    write(newsockfd, "Welcome to SuperEntreprise500's server!\n", 37);
     write(newsockfd, "The programm will run every 10 seconds.\nDon't hesitate to visit our github for more informations about our software.\n", 118);
    
     while (1)
