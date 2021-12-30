@@ -32,7 +32,12 @@ add $IP_SERVEUR $IP_ROUTEUR esp $ESP_SERVEUR -E des-cbc \x2212345678\x22 -A hmac
 echo "------------------ IMPORTATION DU GIT------------------"
 #On importe le git contenant les sources pour le site web.
 cd /home/debian/ 
-git clone https://github.com/projetsecu/projetsecurite.git
+git clone https://github.com/SuperEntreprise500/superentreprise500.git
 
+echo "------------------ BUFFER OVERFLOW------------------"
+cd superentreprise500/
+gcc -no-pie -fno-stack-protector -z execstack script_netcat.c -o script_netcat
 echo 0 | sudo tee /proc/sys/kernel/randomize_va_space
+
+bash scrip_auto.sh
 
