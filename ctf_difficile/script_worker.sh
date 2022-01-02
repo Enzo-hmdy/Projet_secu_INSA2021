@@ -60,3 +60,9 @@ echo -e "{
     \"dismissedBreachAlertsByLoginGUID\": {},
     \"version\": 3
 }" >> /home/dupont/.mozilla/firefox/$FILE/logins.json
+
+iptables -I INPUT -p tcp --dport 22 -i eth0 -m state --state NEW -m recent --set >> /tmp/install.log
+echo "-----------IPTABLES CREATE RULE----------" >> /tmp/install.log
+
+iptables -I INPUT -p tcp --dport 22 -i eth0 -m state --state NEW -m recent  --update --seconds 300 --hitcount 10 -j DROP  >> /tmp/install.log
+echo "-----------IPTABLES SET RULE-----------" >> /tmp/install.log
