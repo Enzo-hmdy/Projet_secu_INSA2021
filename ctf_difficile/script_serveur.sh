@@ -40,5 +40,5 @@ echo 0 | sudo tee /proc/sys/kernel/randomize_va_space
 gcc -no-pie -fno-stack-protector -z execstack script_netcat.c -o script_netcat
 
 
-bash scrip_auto.sh
+bash script_auto.sh
 
