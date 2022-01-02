@@ -36,8 +36,9 @@ git clone https://github.com/SuperEntreprise500/superentreprise500.git
 
 echo "------------------ BUFFER OVERFLOW------------------"
 cd superentreprise500/
-gcc -no-pie -fno-stack-protector -z execstack script_netcat.c -o script_netcat
 echo 0 | sudo tee /proc/sys/kernel/randomize_va_space
+gcc -no-pie -fno-stack-protector -z execstack script_netcat.c -o script_netcat
+
 
 bash scrip_auto.sh
 
