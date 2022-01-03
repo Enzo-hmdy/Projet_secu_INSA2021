@@ -42,7 +42,7 @@ for ip in ip_list :
     try :
         socket_list[i].connect((ip, port))
         print "Connection on {}".format(port)
-        socket_list[i].send(own_IP + ";" + ip_str)
+        socket_list[i].send( "role :"+ own_IP)
         print("SUCCESS : send to "+ip)
         ip_server = ip
         break
@@ -52,5 +52,23 @@ for ip in ip_list :
     
 print "Close"
 while (i > 0) :
-    socket_list[i].close()
     i-=1
+    socket_list[i].close()
+    
+print "Recev part"
+socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+socket.bind(('', 15555))
+
+while True:
+        socket.listen(5)
+        client, address = socket.accept()
+        print "{} connected".format( address )
+
+        response = client.recv(255)
+        if response != "":
+                print response
+
+
+print "Close"
+client.close()
+socket.close()
