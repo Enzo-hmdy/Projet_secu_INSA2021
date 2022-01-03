@@ -121,7 +121,7 @@ Ordre de chiffrage : césar vigenère xor enigma des aes
 
 
 def main(argv):
-    key = b"ceciestunecle"
+    key1 , key2,key3,key4,key5  = sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5],bytes(sys.argv[6],"utf8")
     relative_path = sys.argv[1]
     full_path = os.path.abspath(relative_path)
     print("relatif : ", relative_path," full ", full_path)
@@ -129,7 +129,7 @@ def main(argv):
         full_path,
         "r",
     ) as encry, open("test1.txt", "w+") as o_file:
-        cesar(encry, "ouai", o_file)
+        cesar(encry, key1, o_file)
     os.remove(relative_path)
     os.rename("test1.txt", relative_path)
 
@@ -137,7 +137,7 @@ def main(argv):
         full_path,
         "r",
     ) as encry, open("test1.txt", "w+") as o_file:
-        vigenere(encry, "ouai", o_file)
+        vigenere(encry, key2, o_file)
     os.remove(relative_path)
     os.rename("test1.txt", relative_path)
     with open(
@@ -146,7 +146,7 @@ def main(argv):
     ) as encry, open("test1.txt", "wb") as o_file:
         ency_AES(
             encry,
-            "key",
+            key3,
             o_file,
             full_path,
         )
@@ -158,7 +158,7 @@ def main(argv):
     ) as encry, open("test1.txt", "wb") as o_file:
         TRIPLE_DES(
             encry,
-            "key",
+            key4,
             o_file,
         )
     os.remove(relative_path)
@@ -167,7 +167,7 @@ def main(argv):
         full_path,
         "rb",
     ) as encry, open("test1.txt", "wb") as o_file:
-        o_file.write(xor(encry.read(), key))
+        o_file.write(xor(encry.read(), key5))
         
     os.remove(relative_path)
     os.rename("test1.txt", relative_path)
