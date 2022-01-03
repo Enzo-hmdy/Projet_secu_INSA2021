@@ -10,11 +10,11 @@ apt-get install -y expect
 
 ADD_USER=$(expect -c "
 set timeout 5
-spawn adduser dupont
+spawn adduser prestaextformation
 expect \"New password:\" 
-send \"azerty\r\"
+send \"akdTpneJ2022\r\"
 expect \"Retype new password:\"
-send \"azerty\r\"
+send \"akdTpneJ2022\r\"
 expect \"Full name []:\" 
 send \"\r\"
 expect \"Room Number []:\" 
@@ -31,9 +31,9 @@ expect eof
 ")
 echo "$ADD_USER"
 
-su dupont
+su prestaextformation
 firefox -headless&
-cd /home/dupont/.mozilla/firefox
+cd /home/prestaextformation/.mozilla/firefox
 FILE=$(find . -type d -name '*.default-esr')
 #touch /root/.mozilla/firefox/$FILE/logins.json
 echo -e "{
@@ -59,7 +59,7 @@ echo -e "{
     \"potentiallyVulnerablePasswords\": [],
     \"dismissedBreachAlertsByLoginGUID\": {},
     \"version\": 3
-}" >> /home/dupont/.mozilla/firefox/$FILE/logins.json
+}" >> /home/prestaextformation/.mozilla/firefox/$FILE/logins.json
 
 iptables -I INPUT -p tcp --dport 22 -i eth0 -m state --state NEW -m recent --set >> /tmp/install.log
 echo "-----------IPTABLES CREATE RULE----------" >> /tmp/install.log
