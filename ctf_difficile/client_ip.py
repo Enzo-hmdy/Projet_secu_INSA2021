@@ -3,6 +3,9 @@ import subprocess
 import os
 import time
 
+hote = "localhost"
+port = 15555
+
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.connect(("8.8.8.8", 80))
 own_IP = s.getsockname()[0]
@@ -26,6 +29,28 @@ while pointer < len(output) :
         if output[pointer+5] != '<' :
             ip_list.append(ip_addr)
     pointer += 1
+
 print("own IP : ",own_IP)
 print("IP list: ",ip_list)
-            
+ip_str = ''.join([str(item)+"," for item in ip_list])
+
+print("socket part")
+socket_list = []
+i = 0
+for ip in ip_list : 
+    socket_list.append(socket.socket(socket.AF_INET, socket.SOCK_STREAM))
+    try :
+        socket_list[i].connect((ip, port))
+        print "Connection on {}".format(port)
+        socket_list[i].send(own_IP + ";" + ip_str)
+        print("SUCCESS : send to "+ip)
+        ip_server = ip
+        break
+    except socket.error as msg:
+        print "Socket Error on " + ip + ": %s" % msg
+    i+=1
+    
+print "Close"
+while (i > 0) :
+    socket_list[i].close()
+    i-=1
