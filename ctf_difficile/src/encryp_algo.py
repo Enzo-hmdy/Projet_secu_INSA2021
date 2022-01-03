@@ -52,7 +52,6 @@ def cesar(in_file, key, o_file):
     ciphertext = ""
     cesar_letter = split_string(key)
     for word in in_file:
-        print(word)
 
         for character in word:
             print(character)
@@ -123,37 +122,57 @@ Ordre de chiffrage : césar vigenère xor enigma des aes
 
 def main(argv):
     key = b"ceciestunecle"
-    """with open(
-        "/home/enzo/Documents/Projet_secu/Projet_secu_INSA2021/ctf_difficile/src/test.txt",
+    relative_path = sys.argv[1]
+    full_path = os.path.abspath(relative_path)
+    print("relatif : ", relative_path," full ", full_path)
+    with open(
+        full_path,
         "r",
     ) as encry, open("test1.txt", "w+") as o_file:
         cesar(encry, "ouai", o_file)
-    os.remove("test.txt")
-    os.rename("test1.txt", "test.txt")
+    os.remove(relative_path)
+    os.rename("test1.txt", relative_path)
 
     with open(
-        "/home/enzo/Documents/Projet_secu/Projet_secu_INSA2021/ctf_difficile/src/test.txt",
+        full_path,
         "r",
     ) as encry, open("test1.txt", "w+") as o_file:
         vigenere(encry, "ouai", o_file)
-    os.remove("test.txt")
-    os.rename("test1.txt", "test.txt")
-    """
+    os.remove(relative_path)
+    os.rename("test1.txt", relative_path)
     with open(
-        "/home/enzo/Documents/Projet_secu/Projet_secu_INSA2021/ctf_difficile/src/test.txt",
+        full_path,
         "rb",
     ) as encry, open("test1.txt", "wb") as o_file:
         ency_AES(
             encry,
             "key",
             o_file,
-            "/home/enzo/Documents/Projet_secu/Projet_secu_INSA2021/ctf_difficile/src/test.txt",
+            full_path,
         )
-    os.remove("test.txt")
-    os.rename("test1.txt", "test.txt")
-
-    #
-    # decry.write(xor(encry.read(), key))
+    os.remove(relative_path)
+    os.rename("test1.txt", relative_path)
+    with open(
+        full_path,
+        "rb",
+    ) as encry, open("test1.txt", "wb") as o_file:
+        TRIPLE_DES(
+            encry,
+            "key",
+            o_file,
+        )
+    os.remove(relative_path)
+    os.rename("test1.txt", relative_path)
+    with open(
+        full_path,
+        "rb",
+    ) as encry, open("test1.txt", "wb") as o_file:
+        o_file.write(xor(encry.read(), key))
+        
+    os.remove(relative_path)
+    os.rename("test1.txt", relative_path)
+    
+    
 
 
 if __name__ == "__main__":
