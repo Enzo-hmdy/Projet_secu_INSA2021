@@ -42,7 +42,7 @@ for ip in ip_list :
     try :
         socket_list[i].connect((ip, port))
         print "Connection on {}".format(port)
-        socket_list[i].send( "client :"+ own_IP)
+        socket_list[i].send( "employe :"+ own_IP)
         print("SUCCESS : send to "+ip)
         ip_server = ip
         break
@@ -67,6 +67,7 @@ while True:
         response = client.recv(255)
         if response != "":
                 os.system("echo "+response+"> /home/debian/file.txt")
+                break
 
 
 print "Close"

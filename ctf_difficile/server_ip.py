@@ -1,9 +1,16 @@
 import socket
+import time
+import os
 
 socket1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 socket1.bind(('', 15555))
 role_list = []
 ip_list = []
+
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.connect(("8.8.8.8", 80))
+own_IP = s.getsockname()[0]
+role_list.append("server :"+ own_IP)
 
 while True:
         socket1.listen(5)
@@ -23,31 +30,30 @@ print "Close"
 client.close()
 socket1.close()
 
-print("--------------------sending part-------------------")
-ip_str = ''.join([str(item)+"," for item in ip_list])
+time.sleep(15)
 
-port = 15555
+print("--------------------sending part-------------------")
+role_str = ''.join([str(item)+"," for item in role_list])
+
+port = 15556
 print("socket part")
 socket_list = []
 i = 0
 
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.connect(("8.8.8.8", 80))
-own_IP = s.getsockname()[0]
 for ip in ip_list : 
     socket_list.append(socket.socket(socket.AF_INET, socket.SOCK_STREAM))
     try :
         socket_list[i].connect((ip, port))
         print "Connection on {}".format(port)
-        socket_list[i].send(ip_str)
+        socket_list[i].send(role_str)
         print("SUCCESS : send to "+ip)
         ip_server = ip
-        break
     except socket.error as msg:
         print "Socket Error on " + ip + ": %s" % msg
     i+=1
     
 print "Close"
+os.system("echo "+role_str+"> /home/debian/file.txt")
 while (i > 0) :
     i-=1
     socket_list[i].close()
