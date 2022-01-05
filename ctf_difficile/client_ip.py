@@ -55,7 +55,8 @@ while (i > 0) :
     i-=1
     socket_list[i].close()
     
-print "Recev part"
+print("--------------------receiving part-------------------")
+
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 socket.bind(('', 15555))
 
