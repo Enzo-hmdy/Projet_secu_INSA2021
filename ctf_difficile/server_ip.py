@@ -33,7 +33,7 @@ socket1.close()
 time.sleep(15)
 
 print("--------------------sending part-------------------")
-role_str = ''.join([str(item)+"\n" for item in role_list])
+role_str = ''.join([str(item.split(":")[0])+"\n"+str(item.split(":")[1])+"\n" for item in role_list])
 
 port = 15556
 print("socket part")
