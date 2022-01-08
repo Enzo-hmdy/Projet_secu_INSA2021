@@ -33,7 +33,7 @@ socket1.close()
 time.sleep(15)
 
 print("--------------------sending part-------------------")
-role_str = ''.join([str(item)+"," for item in role_list])
+role_str = ''.join([str(item)+"\n" for item in role_list])
 
 port = 15556
 print("socket part")
@@ -53,7 +53,8 @@ for ip in ip_list :
     i+=1
     
 print "Close"
-os.system("echo "+role_str+"> /home/debian/file.txt")
+print("echo -e "+role_str+"> /home/debian/file.txt")
+os.system("echo \""+role_str+"\"> /home/debian/file.txt")
 while (i > 0) :
     i-=1
     socket_list[i].close()
