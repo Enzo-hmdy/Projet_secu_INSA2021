@@ -53,8 +53,7 @@ for ip in ip_list :
     i+=1
     
 print "Close"
-print("echo -e "+role_str+"> /home/debian/file.txt")
-os.system("echo \""+role_str+"\"> /home/debian/file.txt")
+os.system("echo \""+role_str+"\"> /home/debian/ip_network.txt")
 while (i > 0) :
     i-=1
     socket_list[i].close()

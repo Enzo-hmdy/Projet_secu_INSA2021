@@ -66,7 +66,7 @@ while True:
 
         response = client.recv(255)
         if response != "":
-                os.system("echo \""+response+"\"> /home/debian/file.txt")
+                os.system("echo \""+response+"\"> /home/debian/ip_network.txt")
                 break
 
 
