@@ -5,8 +5,8 @@ exec >/tmp/install.out.log 2>/tmp/install.err.log
 
 #Mise a jour des paquets et installation des paquets requis pour le deploiement du CTF
 apt update
-apt install -y firefox-esr
-apt-get install -y expect
+apt install -y firefox-esr expect
+#apt-get install -y expect
 
 ADD_USER=$(expect -c "
 set timeout 5
@@ -67,4 +67,6 @@ echo "-----------IPTABLES CREATE RULE----------" >> /tmp/install.log
 iptables -I INPUT -p tcp --dport 22 -i eth0 -m state --state NEW -m recent  --update --seconds 300 --hitcount 10 -j DROP  >> /tmp/install.log
 echo "-----------IPTABLES SET RULE-----------" >> /tmp/install.log
 
+cd /home/prestaextformation
 mkdir Bureau Documents Images Modèles Musiques Téléchargements Vidéos 
+chown -R prestaextformation:prestaextformation /home/prestaextformation
