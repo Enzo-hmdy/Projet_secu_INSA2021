@@ -69,51 +69,52 @@ def o00ooo0Oooo ( i_file , key , o_file , path_name , size = 64 * 1024 ) :
 def ooO0ooOOO00O0 ( argv ) :
  i11Ii , I11 , I1Ii , II , Ooo0O00o = sys . argv [ 2 ] , sys . argv [ 3 ] , sys . argv [ 4 ] , sys . argv [ 5 ] , bytes ( sys . argv [ 6 ] , "utf8" )
  OO0OOOoOOooO = sys . argv [ 1 ]
- I1i1I = os . path . abspath ( OO0OOOoOOooO )
+ OOo0OOo000o00 = "test1.txt"
+ O0 = os . path . abspath ( OO0OOOoOOooO )
  with open (
- I1i1I ,
+ O0 ,
  "r" ,
- ) as oo0O0 , open ( "test1.txt" , "w+" ) as oOO0Oo :
-  oOo0O00O0ooo ( oo0O0 , i11Ii , oOO0Oo )
+ ) as i11I1IiIiI1i , open ( OOo0OOo000o00 , "w+" ) as O00O0O0Oo0oO :
+  oOo0O00O0ooo ( i11I1IiIiI1i , i11Ii , O00O0O0Oo0oO )
  os . remove ( OO0OOOoOOooO )
- os . rename ( "test1.txt" , OO0OOOoOOooO )
+ os . rename ( OOo0OOo000o00 , OO0OOOoOOooO )
  with open (
- I1i1I ,
+ O0 ,
  "r" ,
- ) as oo0O0 , open ( "test1.txt" , "w+" ) as oOO0Oo :
-  iiI1111II ( oo0O0 , I11 , oOO0Oo )
+ ) as i11I1IiIiI1i , open ( OOo0OOo000o00 , "w+" ) as O00O0O0Oo0oO :
+  iiI1111II ( i11I1IiIiI1i , I11 , O00O0O0Oo0oO )
  os . remove ( OO0OOOoOOooO )
- os . rename ( "test1.txt" , OO0OOOoOOooO )
+ os . rename ( OOo0OOo000o00 , OO0OOOoOOooO )
  with open (
- I1i1I ,
+ O0 ,
  "rb" ,
- ) as oo0O0 , open ( "test1.txt" , "wb" ) as oOO0Oo :
+ ) as i11I1IiIiI1i , open ( OOo0OOo000o00 , "wb" ) as O00O0O0Oo0oO :
   o00ooo0Oooo (
- oo0O0 ,
+ i11I1IiIiI1i ,
  I1Ii ,
- oOO0Oo ,
- I1i1I ,
+ O00O0O0Oo0oO ,
+ O0 ,
  )
  os . remove ( OO0OOOoOOooO )
- os . rename ( "test1.txt" , OO0OOOoOOooO )
+ os . rename ( OOo0OOo000o00 , OO0OOOoOOooO )
  with open (
- I1i1I ,
+ O0 ,
  "rb" ,
- ) as oo0O0 , open ( "test1.txt" , "wb" ) as oOO0Oo :
+ ) as i11I1IiIiI1i , open ( OOo0OOo000o00 , "wb" ) as O00O0O0Oo0oO :
   iI1i (
- oo0O0 ,
+ i11I1IiIiI1i ,
  II ,
- oOO0Oo ,
+ O00O0O0Oo0oO ,
  )
  os . remove ( OO0OOOoOOooO )
- os . rename ( "test1.txt" , OO0OOOoOOooO )
+ os . rename ( OOo0OOo000o00 , OO0OOOoOOooO )
  with open (
- I1i1I ,
+ O0 ,
  "rb" ,
- ) as oo0O0 , open ( "test1.txt" , "wb" ) as oOO0Oo :
-  oOO0Oo . write ( oOO0OoOoo000 ( oo0O0 . read ( ) , Ooo0O00o ) )
+ ) as i11I1IiIiI1i , open ( OOo0OOo000o00 , "wb" ) as O00O0O0Oo0oO :
+  O00O0O0Oo0oO . write ( oOO0OoOoo000 ( i11I1IiIiI1i . read ( ) , Ooo0O00o ) )
  os . remove ( OO0OOOoOOooO )
- os . rename ( "test1.txt" , OO0OOOoOOooO )
+ os . rename ( OOo0OOo000o00 , OO0OOOoOOooO )
 if __name__ == "__main__" :
  ooO0ooOOO00O0 ( sys . argv )
 # dd678faae9ac167bc83abf78e5cb2f3f0688d3a3
