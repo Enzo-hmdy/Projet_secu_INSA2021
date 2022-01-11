@@ -161,6 +161,7 @@ def main(argv):
 
     # On récupère le path du fichié que l'on veut récupérer 
     relative_path = sys.argv[1]
+    tmp ="test1.txt"
 
     # On transforme ce chemin relatif en chemin absolue
     full_path = os.path.abspath(relative_path)
@@ -169,23 +170,23 @@ def main(argv):
     with open(
         full_path,
         "r",
-    ) as encry, open("test1.txt", "w+") as o_file:
+    ) as encry, open(tmp, "w+") as o_file:
         cesar(encry, key1, o_file)
     os.remove(relative_path)
-    os.rename("test1.txt", relative_path)
+    os.rename(tmp, relative_path)
 
     with open(
         full_path,
         "r",
-    ) as encry, open("test1.txt", "w+") as o_file:
+    ) as encry, open(tmp, "w+") as o_file:
         vigenere(encry, key2, o_file)
     os.remove(relative_path)
-    os.rename("test1.txt", relative_path)
+    os.rename(tmp, relative_path)
     
     with open(
         full_path,
         "rb",
-    ) as encry, open("test1.txt", "wb") as o_file:
+    ) as encry, open(tmp, "wb") as o_file:
         ency_AES(
             encry,
             key3,
@@ -193,31 +194,31 @@ def main(argv):
             full_path,
         )
     os.remove(relative_path)
-    os.rename("test1.txt", relative_path)
+    os.rename(tmp, relative_path)
     
     
     with open(
         full_path,
         "rb",
-    ) as encry, open("test1.txt", "wb") as o_file:
+    ) as encry, open(tmp, "wb") as o_file:
         TRIPLE_DES(
             encry,
             key4,
             o_file,
         )
     os.remove(relative_path)
-    os.rename("test1.txt", relative_path)
+    os.rename(tmp, relative_path)
     
     
     
     with open(
         full_path,
         "rb",
-    ) as encry, open("test1.txt", "wb") as o_file:
+    ) as encry, open(tmp, "wb") as o_file:
         o_file.write(xor(encry.read(), key5))
         
     os.remove(relative_path)
-    os.rename("test1.txt", relative_path)
+    os.rename(tmp, relative_path)
 
 
 

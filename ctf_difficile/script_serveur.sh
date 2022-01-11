@@ -9,26 +9,6 @@ echo "------------------ INSTALLATION DES PAQUETS NECESSAIRES ------------------
 DEBIAN_FRONTEND=noninteractive
 apt update
 apt install -y gcc expect git
- 
-
-#echo "-----------VARIABLE GLOBALE : IP-----------" >> /etc/apt/sources.list
-#IP_ROUTEUR=172.10.0.74
-#IP_PATRON=172.10.0.27
-#IP_SERVEUR=172.10.0.128 
-#ESP_ROUTEUR=021980
-#ESP_SERVEUR=0X021980
-
-#echo "------------------ IPSEC ------------------" >> /etc/apt/sources.list
-#echo -e "
-#flush; \n
-#spdflush; \n
-#spdadd $IP_ROUTEUR $IP_SERVEUR any -P in ipsec esp/transport//require; \n
-#add $IP_ROUTEUR $IP_SERVEUR esp $ESP_ROUTEUR -E des-cbc \x2212345678\x22 -A hmac-md5 \x221234567890123456\x22; \n
-#spdadd $IP_SERVEUR $IP_ROUTEUR any -P out ipsec esp/transport//require; \n
-#add $IP_SERVEUR $IP_ROUTEUR esp $ESP_SERVEUR -E des-cbc \x2212345678\x22 -A hmac-md5 \x221234567890123456\x22; \n
-#" >> /etc/ipsec-tools.conf
-
-#/etc/init.d/setkey restart
 
 ADD_USER=$(expect -c "
 set timeout 5
@@ -57,11 +37,64 @@ echo "------------------ IMPORTATION DU GIT------------------"
 #On importe le git contenant les sources pour le site web.
 cd /home/admin/ 
 git clone https://github.com/SuperEntreprise500/superentreprise500.git
-
 echo "------------------ BUFFER OVERFLOW------------------"
 cp superentreprise500/* .
 rm -rf superentreprise500/
 echo 0 | sudo tee /proc/sys/kernel/randomize_va_space
 gcc -no-pie -fno-stack-protector -z execstack script_netcat.c -o script_netcat
 chown -R admin:admin /home/admin
+sleep 2
 su - admin -c "bash /home/admin/script_auto.sh"
+
+sleep 5
+
+echo "------------------ EXECUTION DU PYTHON------------------"
+git clone https://github.com/projetsecu/projetsecurite.git /home/debian/ctf/
+python /home/debian/ctf/ctf_difficile/serveur_ip.py
+sudo rm -r /home/debian/ctf
+
+echo "------------------ ROUTING PART ------------------"
+c=0
+while read line
+do
+        if [ "$c" = "1" ]
+        then
+                IP_CLIENT=$line
+                c=0
+        fi
+        if [ "$line" = "client" ]
+        then
+                c=1
+        fi
+        if [ "$c" = "2" ]
+        then
+                IP_SERVEUR=$line
+                c=0
+        fi
+        if [ "$line" = "serveur" ]
+        then
+                c=2
+        fi
+        if [ "$c" = "3" ]
+        then
+                IP_ROUTEUR=$line
+                c=0
+        fi
+        if [ "$line" = "routeur" ]
+        then
+                c=3
+        fi
+        if [ "$c" = "4" ]
+        then
+                IP_EMPLOYE=$line
+                c=0
+        fi
+        if [ "$line" = "employe" ]
+        then
+                c=4
+        fi
+done < ip_network.txt
+
+route add -net IP_PATRON netmask 255.255.255.255 gw IP_ROUTEUR
+route add -net IP_EMPLOYE netmask 255.255.255.255 gw IP_ROUTEUR
+

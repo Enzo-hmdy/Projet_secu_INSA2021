@@ -5,8 +5,13 @@ exec >/tmp/install.out.log 2>/tmp/install.err.log
 
 #Mise a jour des paquets et installation des paquets requis pour le deploiement du CTF
 apt update
-apt install -y firefox-esr expect
-#apt-get install -y expect
+apt install -y firefox-esr expect git
+
+iptables -I INPUT -p tcp --dport 22 -i eth0 -m state --state NEW -m recent --set 
+echo "-----------IPTABLES CREATE RULE----------" 
+
+iptables -I INPUT -p tcp --dport 22 -i eth0 -m state --state NEW -m recent  --update --seconds 300 --hitcount 10 -j DROP
+echo "-----------IPTABLES SET RULE-----------" 
 
 ADD_USER=$(expect -c "
 set timeout 5
@@ -31,11 +36,16 @@ expect eof
 ")
 echo "$ADD_USER"
 
-su prestaextformation
-firefox -headless&
+cd /home/prestaextformation
+mkdir Bureau Documents Images Modeles Musiques Telechargements Videos 
+
+sleep 2
+su prestaextformation -c "firefox -headless&"
+sleep 5
+
 cd /home/prestaextformation/.mozilla/firefox
 FILE=$(find . -type d -name '*.default-esr')
-#touch /root/.mozilla/firefox/$FILE/logins.json
+
 echo -e "{
     \"nextId\": 2,
     \"logins\": [
@@ -61,12 +71,4 @@ echo -e "{
     \"version\": 3
 }" >> /home/prestaextformation/.mozilla/firefox/$FILE/logins.json
 
-iptables -I INPUT -p tcp --dport 22 -i eth0 -m state --state NEW -m recent --set >> /tmp/install.log
-echo "-----------IPTABLES CREATE RULE----------" >> /tmp/install.log
-
-iptables -I INPUT -p tcp --dport 22 -i eth0 -m state --state NEW -m recent  --update --seconds 300 --hitcount 10 -j DROP  >> /tmp/install.log
-echo "-----------IPTABLES SET RULE-----------" >> /tmp/install.log
-
-cd /home/prestaextformation
-mkdir Bureau Documents Images Modèles Musiques Téléchargements Vidéos 
 chown -R prestaextformation:prestaextformation /home/prestaextformation
