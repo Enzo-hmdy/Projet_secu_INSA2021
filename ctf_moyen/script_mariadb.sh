@@ -1,9 +1,9 @@
 #!/bin/bash
 
-sudo apt-get update >> /tmp/install.log
-apt-get -y install expect >> /tmp/install.log
-sudo apt -y install mariadb-server mariadb-client  >> /tmp/install.log
-MYSQL_ROOT_PASSWORD=azerty  >> /tmp/install.log
+sudo apt-get update 
+apt-get -y install expect 
+sudo apt -y install mariadb-server mariadb-client  
+MYSQL_ROOT_PASSWORD=azerty  
 SUPER_USER_PSW=Cl3m3ntM3li3erF3AT3nZoHoummady
 MYMSG=Fl4gForu
 MYSQL_INSTAL=$(expect -c "  
@@ -70,61 +70,61 @@ expect \"Is the information correct? []\"
 send \"Y\r\"
 expect eof
 ")
-echo "$MYSQL_INSTAL" >> /tmp/install.log
-echo "$ADD_USER" >> /tmp/install.log
-echo "$ADD_SUPERUSER" >> /tmp/install.log
-echo "-----------ADD USER -----------" >> /tmp/install.log
+echo "$MYSQL_INSTAL" 
+echo "$ADD_USER" 
+echo "$ADD_SUPERUSER" 
+echo "-----------ADD USER -----------"
 
-apt-get -y install ufw  >> /tmp/install.log
-echo "-----------INSTALL UFW -----------" >> /tmp/install.log
-ufw allow from 0.0.0.0 to any port 3306 >> /tmp/install.log
-iptables -A INPUT -p tcp --dport 3306 -j ACCEPT >> /tmp/install.log
-echo "-----------OPEN PORT SQL -----------" >> /tmp/install.log
-service iptables save >> /tmp/install.log
-mysql -u root -p$MYMSG -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYMSG';" >> /tmp/install.log
-sed -i -e 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf  >> /tmp/install.log
-echo "-----------MODIF MARIADB CNF-----------" >> /tmp/install.log
-systemctl restart mysql >> /tmp/install.log
-systemctl restart mariadb >> /tmp/install.log
-echo "-----------MARIADB RESTART -----------" >> /tmp/install.log
-apt-get -y install git >> /tmp/install.log
+apt-get -y install ufw  
+echo "-----------INSTALL UFW -----------" 
+ufw allow from 0.0.0.0 to any port 3306 
+iptables -A INPUT -p tcp --dport 3306 -j ACCEPT
+echo "-----------OPEN PORT SQL -----------"
+service iptables save
+mysql -u root -p$MYMSG -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYMSG';" 
+sed -i -e 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf  
+echo "-----------MODIF MARIADB CNF-----------" 
+systemctl restart mysql 
+systemctl restart mariadb 
+echo "-----------MARIADB RESTART -----------" 
+apt-get -y install git 
 sudo apt-get update
 sudo apt-get -y install python3-pip
 python3 -m pip install --upgrade pip
 
-python3 -m pip install Pillow >> /tmp/install.log
+python3 -m pip install Pillow 
 python3 -m pip install --upgrade pillow
-python3 -m pip install numpy >> /tmp/install.log
-echo "-----------INSTALL PYTHON -----------" >> /tmp/install.log
+python3 -m pip install numpy 
+echo "-----------INSTALL PYTHON -----------" 
 
 
 git clone https://github.com/projetsecu/projetsecurite.git /home/debian/ctf/
-echo "-----------GIT CLONE -----------" >> /tmp/install.log
+echo "-----------GIT CLONE -----------" 
 
-mkdir /home/debian/protected_script >> /tmp/install.log
-chmod 750 /home/debian/protected_script >> /tmp/install.log
-echo "-----------PROTECTED SCRIPTS-----------" >> /tmp/install.log
+mkdir /home/debian/protected_script 
+chmod 750 /home/debian/protected_script 
+echo "-----------PROTECTED SCRIPTS-----------" 
 
 cp /home/debian/ctf/ctf_moyen/mv_files.sh /home/debian
 cp /home/debian/ctf/ctf_moyen/exec_all_files.sh /home/debian
 cp /home/debian/ctf/ctf_moyen/create_db.sql /home/debian
 cp /home/debian/ctf/ctf_moyen/echo_in_consol.sh /home/debian/protected_script
 cp /home/debian/ctf/ctf_moyen/show_admin_passwd.sh /home/debian/
-echo "-----------COPY FILES-----------" >> /tmp/install.log
+echo "-----------COPY FILES-----------" 
 
 chmod 777 /home/debian/ctf/ctf_moyen/encrypt.py
 sudo python3 /home/debian/ctf/ctf_moyen/encrypt.py /home/debian/ctf/ctf_moyen/a.png /home/debian/picture.png $MYMSG
 sudo mv /home/debian/picture.png /home/user
-echo "-----------ENCRYPT PYTHON-----------" >> /tmp/install.log
+echo "-----------ENCRYPT PYTHON-----------" 
 chmod -R 777 ctf/
 sudo rm -r /home/debian/ctf
-echo "-----------RM DIRECTORY-----------" >> /tmp/install.log
+echo "-----------RM DIRECTORY-----------" 
 
-iptables -I INPUT -p tcp --dport 3306 -i eth0 -m state --state NEW -m recent --set >> /tmp/install.log
-echo "-----------IPTABLES CREATE RULE----------" >> /tmp/install.log
+iptables -I INPUT -p tcp --dport 3306 -i eth0 -m state --state NEW -m recent --set 
+echo "-----------IPTABLES CREATE RULE----------" 
 
-iptables -I INPUT -p tcp --dport 3306 -i eth0 -m state --state NEW -m recent  --update --seconds 300 --hitcount 4 -j DROP  >> /tmp/install.log
-echo "-----------IPTABLES SET RULE-----------" >> /tmp/install.log
+iptables -I INPUT -p tcp --dport 3306 -i eth0 -m state --state NEW -m recent  --update --seconds 300 --hitcount 4 -j DROP  
+echo "-----------IPTABLES SET RULE-----------" 
 
 sudo apt-get install whois
 
@@ -134,38 +134,37 @@ chmod +x /home/debian/show_admin_passwd.sh
 chmod +x /home/debian/protected_script/echo_in_consol.sh
 chmod 750 /home/debian
 chmod 750 /home/admin
-echo "-----------MANAGING RIGHTS-----------" >> /tmp/install.log
+echo "-----------MANAGING RIGHTS-----------" 
 
 (crontab -l 2>/dev/null; echo "* * * * * /home/debian/mv_files.sh") | crontab -
 (crontab -l 2>/dev/null; echo "* * * * * /home/debian/exec_all_files.sh") | crontab -
 (crontab -l 2>/dev/null; echo " ") | crontab -
 
-# touch /var/spool/cron/crontabs/root >> /tmp/install.log
+# touch /var/spool/cron/crontabs/root 
 # chmod +x /var/spool/cron/crontabs/root
 # echo "#!/bin/bash" >> /var/spool/cron/crontabs/root
 # echo "* * * * * /home/debian/mv_files.sh" >> /var/spool/cron/crontabs/root
 # echo "* * * * * /home/debian/exec_all_files.sh" >> /var/spool/cron/crontabs/root
 # echo " " >> /var/spool/cron/crontabs/root
 # Dec  2 20:52:01 etudiant4-moyen-test cron[4165]: (root) RELOAD (crontabs/root)
-echo "-----------CRON SET UP-----------" >> /tmp/install.log
+echo "-----------CRON SET UP-----------" 
 
 #UPDATE mysql.user SET File_priv = 'Y' WHERE user='my_user' AND host='localhost'; APRES CA FAUT REBOOT et utiliser cette commande sans utilsier de bdd vant 
 # A mettre dans le crontab toute les minutes :  echo "il est actuellement" && date +%R 
 
 # Création database mysql
-mysql -e "CREATE DATABASE scripts" >> /tmp/install.log
-mysql scripts < /home/debian/create_db.sql >> /tmp/install.log
-echo "-----------CREATE DATABASE-----------" >> /tmp/install.log
+mysql -e "CREATE DATABASE scripts" 
+mysql scripts < /home/debian/create_db.sql 
+echo "-----------CREATE DATABASE-----------" 
 echo "Cl3m3ntM3li3erF3AT3nZoHoummady" >> /home/debian/passwd.txt
 
 
 echo "{W3ll_Done_B0ys Welcome to L33T of H4ck3rs}" >> /home/admin/flag.txt
 
-rm /tmp/install.log
+
 #TODO
 #DELETE ALL LOGS
 #PREVENT USER >FROM USING SUDO
 
 # commande sql à realiser
 # SELECT text_script FROM script WHERE nom_script='show_in_console5.sh' INTO OUTFILE 'joie.sh' LINES TERMINATED BY '\n';
-;
