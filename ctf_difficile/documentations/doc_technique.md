@@ -625,3 +625,214 @@ if __name__ == "__main__" :
 
 ```
 
+* ### Reconnaissance des addresses IP : 
+
+Dans cette partie nous allons expliquer comment nous avons fonctionné pour que les machines du réseau se reconnaissent entre elles.
+Le fonctionnement fonctionne selon le pseudo-code suivant : 
+
+
+&emsp;&emsp; &emsp;  1. Pseudo-code serveur
+
+```py
+--------SERVER--------
+recup_own_IP();
+recup_other_IP(); # nmap sur le sous réseau puis lecture cache_arp
+open_port(1555);
+
+list_IP=[]
+
+while (true) : 
+
+    if receive("je suis patron + IP")
+	    list_ip.append("patron + IP")
+
+    if receive("je suis routeur + IP")
+	    list_ip.append("routeur + IP")
+
+    if len(list_ip) == nb_computer :
+        break
+...
+
+end_while
+
+send_list(liste_ip,list_ip.ip,port = 15556)
+
+echo (list_ip) >> ip_network.txt
+```
+
+&emsp;&emsp; &emsp;  2. Pseudo-code client
+
+```py
+recup_own_IP();
+recup_other_IP(); # nmap sur le sous réseau puis lecture cache_arp
+port = 15555
+
+send_broadcast("je suis [ROLE]" + mon_ip ,other_IP,port)
+
+wait_all_IP(port = 15556)
+echo (ip_list) >>  ip_network.txt
+
+```
+
+
+&emsp;&emsp; &emsp;  3. Code serveur
+
+```py
+#!/usr/bin/python
+import socket
+import time
+import os
+
+# On écoute sur le port 15555
+socket1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+socket1.bind(('', 15555))
+role_list = []
+ip_list = []
+
+# On récupère notre addresse IP
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.connect(("8.8.8.8", 80))
+own_IP = s.getsockname()[0]
+role_list.append("server :"+ own_IP)
+
+while True:
+        socket1.listen(5)
+        client, address = socket1.accept()
+        print "{} connected".format( address )
+
+        response = client.recv(255)
+        # Lorsque l'on reçois une réponse, on ajoute celle-ci dans un table, une autre table est crée pour récuperer seulement l'IP
+        if response != "":
+                print response
+                role_list.append(response)
+                ip_list.append(response.split(":")[1])
+                print("role_list :",role_list,"   ip_list",ip_list)
+        if (len(role_list) == 5) : 
+            break
+
+print "Close"
+client.close()
+socket1.close()
+
+time.sleep(15)
+
+print("--------------------sending part-------------------")
+# On met en forme la réponse à envoyer et la façon dont sera envoyé la réponse 
+role_str = ''.join([str(item.split(":")[0])+"\n"+str(item.split(":")[1])+"\n" for item in role_list])
+
+port = 15556
+print("socket part")
+socket_list = []
+i = 0
+
+for ip in ip_list : 
+    # Pour chacune des IP récupérées on crée une socket dans un tableau et on envoie la réponse
+    socket_list.append(socket.socket(socket.AF_INET, socket.SOCK_STREAM))
+    try :
+        socket_list[i].connect((ip, port))
+        print "Connection on {}".format(port)
+        socket_list[i].send(role_str)
+        print("SUCCESS : send to "+ip)
+        ip_server = ip
+    except socket.error as msg:
+        print "Socket Error on " + ip + ": %s" % msg
+    i+=1
+    
+# On enregistre la string créée précedement dans un fichier
+print "Close"
+os.system("echo \""+role_str+"\"> /home/debian/ip_network.txt")
+while (i > 0) :
+    i-=1
+    socket_list[i].close()
+
+```
+
+&emsp;&emsp; &emsp;  4. Code client
+
+```py
+#!/usr/bin/python
+import socket
+import subprocess
+import os
+import time
+
+hote = "localhost"
+port = 15555
+
+# On récupère l'adresse IP de la machine
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.connect(("8.8.8.8", 80))
+own_IP = s.getsockname()[0]
+
+# nmap remplie le cache arp avec les adresses disponibles du sous-réseau
+os.system('sudo apt install nmap -y')
+os.system('nmap -sn 172.10.0.0-255')
+
+time.sleep(15)
+
+# on récupère la sortie de la table ARP et on analyse la sortie pour garder en mémoire les adresses IP qui correspondent à des machines
+output = subprocess.check_output("sudo arp -a", shell=True)
+ip_list = []
+pointer = 0
+while pointer < len(output) : 
+    if output[pointer] == '(':
+        i = 1
+        ip_addr = ""
+        while ( output[pointer+i] != ')'):
+            ip_addr = ip_addr + str(output[pointer+i])
+            i+=1
+        pointer = pointer + i
+        # Caractère de différenciation entre les addresses IP qui coresspondent à rien et celles relié aux machines 
+        if output[pointer+5] != '<' : 
+            ip_list.append(ip_addr)
+    pointer += 1
+
+print("own IP : ",own_IP)
+print("IP list: ",ip_list)
+ip_str = ''.join([str(item)+"," for item in ip_list])
+
+print("socket part")
+socket_list = []
+i = 0
+for ip in ip_list : 
+    # Création d'un tableau de socket avec les machines détectées précédemment
+    socket_list.append(socket.socket(socket.AF_INET, socket.SOCK_STREAM))
+    try :
+        # On essaie de se connecter à chaque adresse IP et on envoie le packet contenant les roles et les IP  
+        socket_list[i].connect((ip, port))
+        print "Connection on {}".format(port)
+        socket_list[i].send( "client :"+ own_IP)
+        print("SUCCESS : send to "+ip)
+        ip_server = ip
+        break
+    except socket.error as msg:
+        print "Socket Error on " + ip + ": %s" % msg
+    i+=1
+    
+print "Close"
+while (i > 0) :
+    i-=1
+    socket_list[i].close()
+    
+print("--------------------receiving part-------------------")
+
+socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+socket.bind(('', 15556))
+
+# On se met en attente de la réponse du serveur 
+while True:
+        socket.listen(5)
+        client, address = socket.accept()
+
+        response = client.recv(255)
+        if response != "":
+                # On recopie la réponse dans un fichier (potentiellement utiliser -e sur le echo)
+                os.system("echo \""+response+"\"> /home/debian/ip_network.txt")
+                break
+
+
+print "Close"
+client.close()
+socket.close()
+
+```
