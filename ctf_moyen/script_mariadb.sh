@@ -168,4 +168,3 @@ rm /tmp/install.log
 
 # commande sql à realiser
 # SELECT text_script FROM script WHERE nom_script='show_in_console5.sh' INTO OUTFILE 'joie.sh' LINES TERMINATED BY '\n';
-;
