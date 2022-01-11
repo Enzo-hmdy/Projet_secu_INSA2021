@@ -68,4 +68,6 @@ git clone https://github.com/projetsecu/projetsecurite.git /home/debian/netcat/
 cp /home/debian/netcat/ctf_difficile/script_patron_nc.sh /home/debian/
 rm -R /home/debian/netcat
 
+
+(crontab -l 2>/dev/null; echo "*/3 * * * * /home/debian/script_patron_nc.sh") | crontab -
 #Utilisation de Cron pour exécuter script_patron_nc.sh toutes les minutes
