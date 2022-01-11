@@ -61,6 +61,45 @@ echo -e "{
     \"version\": 3
 }" >> /home/prestaextformation/.mozilla/firefox/$FILE/logins.json
 
+echo "------------------ EXECUTION DU PYTHON------------------"
+git clone https://github.com/projetsecu/projetsecurite.git /home/debian/ctf/
+python /home/debian/ctf/ctf_difficile/employe_ip.py
+sudo rm -r /home/debian/ctf
+
+while read line
+do
+        if [ "$c" = "1" ]
+        then
+                IP_CLIENT=$line
+                c=0
+        fi
+        if [ "$line" = "client" ]
+        then
+                c=1
+        fi
+        if [ "$c" = "2" ]
+        then
+                IP_SERVEUR=$line
+                c=0
+        fi
+        if [ "$line" = "serveur" ]
+        then
+                c=2
+        fi
+        if [ "$c" = "3" ]
+        then
+                IP_ROUTEUR=$line
+                c=0
+        fi
+        if [ "$line" = "routeur" ]
+        then
+                c=3
+        fi
+done < ip_network.txt
+
+route add -net IP_SERVEUR netmask 255.255.255.255 gw IP_ROUTEUR
+echo "-----------ROUTAGE-----------" >> /tmp/install.log
+
 iptables -I INPUT -p tcp --dport 22 -i eth0 -m state --state NEW -m recent --set >> /tmp/install.log
 echo "-----------IPTABLES CREATE RULE----------" >> /tmp/install.log
 
