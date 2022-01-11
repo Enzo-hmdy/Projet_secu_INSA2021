@@ -1,18 +1,14 @@
 #!/bin/bash
-echo "deb http://ftp.fr.debian.org/debian stretch main" >> /etc/apt/sources.list
-sudo apt-get update >> /tmp/install.log
-apt-get install -y ipsec-tools >> /tmp/install.log
-apt-get install racoon >> /tmp/install.log
-DEBIAN_FRONTEND=noninteractive apt-get install racoon >> /tmp/install.log
-echo "-----------INSTALL RACOON IPSEC-TOOLS-----------" >> /tmp/install.log
-
-ESP_ROUTEUR=021980
-ESP_SERVEUR=0X021980
-echo "-----------VARIABLE GLOBALE : IP-----------" >> /tmp/install.log
-
+#On retrouvera la sortie standard dans install.out.log et les erreurs dans install.err.log
+exec >/tmp/install.out.log 2>/tmp/install.err.log    
+#echo "deb http://ftp.fr.debian.org/debian stretch main" >> /etc/apt/sources.list
+DEBIAN_FRONTEND=noninteractive 
+sudo apt-get update
+apt-get install git
 echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf 
-iptables -t nat -A POSTROUTING -o ethx # -j MASQUERADE (a voir si on active le masquerade)
-echo "-----------ROUTAGE-----------" >> /tmp/install.log
+systctl -p
+#iptables -t nat -A POSTROUTING -o ethx # -j MASQUERADE (a voir si on active le masquerade)
+echo "-----------ROUTAGE-----------" >> 
 
 echo "------------------ EXECUTION DU PYTHON------------------"
 git clone https://github.com/projetsecu/projetsecurite.git /home/debian/ctf/
@@ -52,15 +48,4 @@ do
         fi
 done < ip_network.txt
 
-#IPSEC
-# sudo echo -e "
-# flush; \n
-# spdflush; \n
-# spdadd $IP_ROUTEUR $IP_SERVEUR any -P out ipsec esp/transport//require; \n
-# add $IP_ROUTEUR $IP_SERVEUR esp $ESP_ROUTEUR -E des-cbc \x2212345678\x22 -A hmac-md5 \x221234567890123456\x22; \n
-# spdadd $IP_SERVEUR $IP_ROUTEUR any -P in ipsec esp/transport//require; \n
-# add $IP_SERVEUR $IP_ROUTEUR esp $ESP_SERVEUR -E des-cbc \x2212345678\x22 -A hmac-md5 \x221234567890123456\x22; \n
-# " >> sudo /etc/ipsec-tools.conf
-#\042
-/etc/init.d/setkey restart
 

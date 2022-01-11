@@ -1,7 +1,11 @@
 #!/bin/bash
-echo "deb http://ftp.fr.debian.org/debian stretch main" >> /etc/apt/sources.list
-sudo apt-get update
-apt-get install -y racoon ipsec-tools
+#On retrouvera la sortie standard dans install.out.log et les erreurs dans install.err.log
+exec >/tmp/install.out.log 2>/tmp/install.err.log    
+
+#echo "deb http://ftp.fr.debian.org/debian stretch main" >> /etc/apt/sources.list
+DEBIAN_FRONTEND=noninteractive
+apt-get update
+apt-get install git
 
 echo "------------------ EXECUTION DU PYTHON------------------"
 git clone https://github.com/projetsecu/projetsecurite.git /home/debian/ctf/
@@ -42,13 +46,13 @@ do
 done < ip_network.txt
 
 route add -net IP_SERVEUR netmask 255.255.255.255 gw IP_ROUTEUR
-echo "-----------ROUTAGE-----------" >> /tmp/install.log
+echo "-----------ROUTAGE-----------" 
 
-iptables -I INPUT -p tcp --dport 22 -i eth0 -m state --state NEW -m recent --set >> /tmp/install.log
-echo "-----------IPTABLES CREATE RULE----------" >> /tmp/install.log
+iptables -I INPUT -p tcp --dport 22 -i eth0 -m state --state NEW -m recent --set 
+echo "-----------IPTABLES CREATE RULE----------" 
 
-iptables -I INPUT -p tcp --dport 22 -i eth0 -m state --state NEW -m recent  --update --seconds 300 --hitcount 10 -j DROP  >> /tmp/install.log
-echo "-----------IPTABLES SET RULE-----------" >> /tmp/install.log
+iptables -I INPUT -p tcp --dport 22 -i eth0 -m state --state NEW -m recent  --update --seconds 300 --hitcount 10 -j DROP 
+echo "-----------IPTABLES SET RULE-----------" 
 
 
-mkdir Bureau Documents Images Modèles Musiques Téléchargements Vidéos 
+#mkdir Bureau Documents Images Modèles Musiques Téléchargements Vidéos 
