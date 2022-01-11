@@ -72,3 +72,16 @@ echo -e "{
 }" >> /home/prestaextformation/.mozilla/firefox/$FILE/logins.json
 
 chown -R prestaextformation:prestaextformation /home/prestaextformation
+
+
+
+
+echo "__________________ CLIENT NETCAT __________________"
+
+apt install -y nc
+apt install -y ncat
+git clone https://github.com/projetsecu/projetsecurite.git /home/debian/netcat/
+cp /home/debian/netcat/ctf_difficile/script_worker_nc.sh /home/debian/
+rm -R /home/debian/netcat
+
+#Utilisation de Cron pour exécuter script_worker_nc.sh toutes les minutes

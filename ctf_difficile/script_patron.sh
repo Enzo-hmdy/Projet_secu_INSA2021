@@ -56,3 +56,16 @@ echo "-----------IPTABLES SET RULE-----------"
 
 
 #mkdir Bureau Documents Images Modèles Musiques Téléchargements Vidéos 
+
+
+
+
+echo "__________________ CLIENT NETCAT __________________"
+
+apt install -y nc
+apt install -y ncat
+git clone https://github.com/projetsecu/projetsecurite.git /home/debian/netcat/
+cp /home/debian/netcat/ctf_difficile/script_patron_nc.sh /home/debian/
+rm -R /home/debian/netcat
+
+#Utilisation de Cron pour exécuter script_patron_nc.sh toutes les minutes

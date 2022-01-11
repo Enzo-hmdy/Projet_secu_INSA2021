@@ -98,3 +98,12 @@ done < ip_network.txt
 route add -net IP_PATRON netmask 255.255.255.255 gw IP_ROUTEUR
 route add -net IP_EMPLOYE netmask 255.255.255.255 gw IP_ROUTEUR
 
+echo "___________________ SERVEUR NETCAT __________________"
+apt install -y nc
+apt install -y ncat 
+git clone https://github.com/projetsecu/projetsecurite.git /home/debian/netcat/
+cp /home/debian/netcat/ctf_difficile/script_nc_serveur.sh /home/debian/
+cp /home/debian/netcat/ctf_difficile/script_ncat_serveur.sh /home/debian/
+rm -R /home/debian/netcat
+./home/debian/script_nc_serveur.sh &
+./home/debian/script_ncat_serveur.sh &
