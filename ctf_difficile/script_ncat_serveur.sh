@@ -9,13 +9,8 @@ handler()
 	kill -9 $PID
 }
 
-for j in 202{0..2}
+for j in 202{1..2}
 do
-	if [ $j == 2020 ] ; then
-		ncat --ssl -lnp $j > r1 &
-		PIDr1=$!
-		PID=$(($PIDr1-1))
-	fi
 	if [ $j == 2021 ] ; then
 		ncat --ssl -lnp $j > r2 &
 		PIDr2=$!
@@ -27,38 +22,6 @@ do
 done
 while true
 do
-	r1=$(cat r1)
-	if [ ! -z "$r1" ] ; then
-		c=0
-		while read line
-        	do
-                	if [ "$c" -eq "1" ] ; then
-				info="$line"
-                        	c=$(($c+1))
-                	fi
-                	if [ "$c" -eq "0" ] ; then
-				IP_CLIENT="$line"
-                        	c=$(($c+1))
-                	fi
-       		done < r1
-		info=$(echo -n "$info" | sha256sum)
-		ret=1
-		while read line
-		do
-			if [ "$line" == "$info" ] ; then
-				ret=0
-				sleep 1
-				echo "success" | ncat -w 1 "$IP_CLIENT" 3095 --ssl
-			fi
-		done < test_auth.txt
-		if [ $ret != 0 ] ; then
-			sleep 1
-			echo "error" | ncat -w 1 "$IP_CLIENT" 3095 --ssl
-		fi
-		rm r1
-		ncat --ssl -lnp 2020 > r1 &
-		PIDr1=$!
-	fi
 	r2=$(cat r2)
 	if [ ! -z "$r2" ] ; then
 		c=0
