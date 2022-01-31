@@ -157,7 +157,7 @@ Pour le triple DES on utilise la bibliothèque python [PyCryptodome](https://pyc
 Instalation :
 
 ```bash
-pip install pycryptodome
+pip3 install pycryptodomex
 ```
 
 Utilisation dans python :
