@@ -2,8 +2,10 @@
 
 Github Projet Sécurité CTF de l'INSA-CVL 4A STI 2021/2022  
 
-* ##  Arborescence du Projet
+le readme n'est pas à jour, vous trouverez cependant pour chaque ctf des documentations technique expliquant les différentes technologies utilisées et d'explication des différents scripts d'installations
 
+* ##  Arborescence du Projet
+(Pas à jour) 
 ```
 📦Projet_secu
  ┣ 📂ctf_facile
@@ -30,6 +32,11 @@ Github Projet Sécurité CTF de l'INSA-CVL 4A STI 2021/2022
  ┗ 📜README.md
 
 ```
+
+## CTF_Facile
+
+Pour installer il suffit de lancer le script d'installation.
+C'est un simpe défi de faille web de l'OWASP
 
 ## CTF_Moyen
 
